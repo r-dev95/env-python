@@ -1,0 +1,11 @@
+h5py
+matplotlib
+pandas
+pyyaml
+scikit-learn
+scikit-image
+scipy
+sphinx
+sphinx-autobuild
+sphinx-rtd_theme
+myst-parser

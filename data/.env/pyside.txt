@@ -1,0 +1,10 @@
+matplotlib
+numpy
+pandas
+pypdf
+pyside6
+pyyaml
+sphinx
+sphinx-autobuild
+sphinx-rtd_theme
+myst-parser

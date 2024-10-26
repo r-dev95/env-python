@@ -1,0 +1,9 @@
+matplotlib
+numpy
+pandas
+pyyaml
+flet
+sphinx
+sphinx-autobuild
+sphinx-rtd_theme
+myst-parser
