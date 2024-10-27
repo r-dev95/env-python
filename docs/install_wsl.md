@@ -20,47 +20,50 @@ WSL(Windows Subsystem for Linux)をインストールする手順を示します
 * Linux用Windowsサブシステム
 * 仮想マシンプラットフォーム
 
-    ![コントロールパネル](image/cnt-001.png)
+![コントロールパネル](image/cnt-001.png)
 
-    ![プログラムと機能](image/cnt-002.png)
+![プログラムと機能](image/cnt-002.png)
 
-    ![Windowsの機能](image/cnt-003.png)
+![Windowsの機能](image/cnt-003.png)
 
 ## 2. WSLのインストール
 
-1. `Windows PowerShell`を起動します。
+### 1. Windows PowerShellを起動する
 
-1. WSLのサブパッケージを更新します。
+スタートメニューから検索するか、`Win + R`で「ファイル名を指定して実行」を起動し、
+「powershell.exe」と入力して起動させる。
 
-    ``` powershell
-    wsl --update
-    ```
+### 2. WSLのサブパッケージを更新する
 
-1. WSLのデフォルトバージョンを2に設定します。
+``` powershell
+wsl --update
+```
 
-    ``` powershell
-    wsl --set-default-version 2
-    ```
+### 3. WSLのデフォルトバージョンを設定する
+
+``` powershell
+wsl --set-default-version 2
+```
 
 ## 3. Ubuntuのインストール
 
-1. Ubuntuをインストールします。
+### 1. Ubuntuをインストールする
 
-    ``` powershell
-    wsl --install ubuntu
-    ```
+``` powershell
+wsl --install ubuntu
+```
 
-1. 初回起動時の設定を行います。
+### 2. 初回起動時の設定を行う
 
-   ユーザ名、パスワードを入力してください。
+ユーザ名、パスワードを入力してください。
 
-    ``` powershell
-    ...
-    Enter new UNIX username: <ユーザ名>
-    New password: <パスワード>
-    Retype new password: <パスワード>
-    ...
-    ```
+``` powershell
+...
+Enter new UNIX username: <ユーザ名>
+New password: <パスワード>
+Retype new password: <パスワード>
+...
+```
 
 **インストール完了です。**
 

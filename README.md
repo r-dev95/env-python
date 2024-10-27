@@ -16,16 +16,16 @@
 
 開発環境を構築する手順を示します。
 
-1. [WSLをインストールする。](docs/install_wsl.md)
+### 1. [WSLをインストールする](docs/install_wsl.md)
 
-1. [pythonの仮想環境を構築する。](docs/install_python.md)
+### 2. [pythonの仮想環境を構築する](docs/install_python.md)
 
-1. シンボリックリンクを作成する。
+### 3. シンボリックリンクを作成する
 
-    ``` bash
-    # ln -s <Windowsのパス> <WSLのディストリビューションのパス>
-    ln -s /mnt/c/Users/<user_name>/work/ ~/work
-    ```
+``` bash
+# ln -s <Windowsのパス> <WSLのディストリビューションのパス>
+ln -s /mnt/c/Users/<user_name>/work/ ~/work
+```
 
 ## ライセンス
 
