@@ -119,6 +119,6 @@ Retype new password: <パスワード>
 >
 > ``` powershell
 > # wsl --import (--vhd) <ディストリビューション名> <インポートパス> <ファイル名>
-> wsl --import ubuntu C:\Users\<user_name>\AppData\Local\Packages\ ubuntu.tgz
-> wsl --import --vhd ubuntu C:\Users\<user_name>\AppData\Local\Packages\ ubuntu.vhdx
+> wsl --import ubuntu C:\Users\<user-name>\AppData\Local\Packages\ ubuntu.tgz
+> wsl --import --vhd ubuntu C:\Users\<user-name>\AppData\Local\Packages\ ubuntu.vhdx
 > ```

@@ -24,7 +24,7 @@
 
 ``` bash
 # ln -s <Windowsのパス> <WSLのディストリビューションのパス>
-ln -s /mnt/c/Users/<user_name>/work/ ~/work
+ln -s /mnt/c/Users/<user-name>/work/ ~/work
 ```
 
 ## ライセンス
