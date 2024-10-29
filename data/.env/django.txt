@@ -1,8 +1,0 @@
-Django
-matplotlib
-pandas
-pyyaml
-sphinx
-sphinx-autobuild
-sphinx-rtd_theme
-myst-parser

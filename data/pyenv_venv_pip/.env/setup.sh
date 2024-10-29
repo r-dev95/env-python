@@ -1,17 +1,23 @@
 # -------------------------------------------------------------------
 # WSLのUbuntu上にpythonの仮想環境を構築するスクリプト
 #
-#   このスクリプトが呼び出す.env/make_venv.shは、
+# 1. Ubuntuパッケージの更新
+# 2. build_venv.shの実行
+# 3. 仮想環境ごとの追加処理の実行
+#
+# 使用例:
+#   1. pipパッケージを記載したファイルを作成する。
+#      ファイル名は仮想環境名.txtとして、
+#       .env/python<python-version>/ディレクトリに置く。
+#   2. A_python_verにpythonのバージョンを設定する。
+#   3. A_envnamesに仮想環境名を設定する。
+#   4. 必要に応じて、case文に仮想環境ごとの処理を追加する。
+#
+# Note:
+#   このスクリプトが呼び出す.env/build_venv.shは、
 #   そのスクリプト内で使用する変数と関数のunsetを行う。
 #   そのため使用する変数と関数の名前がこのスクリプトと
 #   かぶらないようにするため、'A_'を頭につけている。
-#
-# 使用例:
-#   1. pipパッケージを記述したファイルを作成する。
-#      ファイル名は仮想環境名.txtとして、.envディレクトリに置く。
-#   2. A_envnamesに仮想環境名を設定する。
-#   3. . make_venv.sh $A_dpath $A_name $A_dpath/$A_name.txt
-#      以下のcase文に仮想環境ごとに他の処理を追加する。
 #
 # コマンド:
 #   source setup.sh
@@ -21,14 +27,19 @@
 
 # 変数と関数をunsetする関数。
 function A_unset_var() {
+    unset A_python_ver
     unset A_dpath
+    unset A_dpath_env
     unset A_envnames
     unset A_name
     unset A_unset_var
 }
 
-# 仮想環境を構築するディレクトリ
-A_dpath=~/.env
+# pythonのバージョン
+A_python_ver=3.12.3
+# 仮想環境を構築するディレクトリパス
+A_dpath=~/.env/
+A_dpath_env=$A_dpath'python'$A_python_ver
 
 # 仮想環境名の配列
 # コメントアウトすれば、仮想環境を作らない。
@@ -42,31 +53,11 @@ A_envnames=(
     django  # django
 )
 
-# Ubuntuのパッケージを更新する。
-echo ------------------------------
-echo Ubuntuパッケージを更新します。
-echo ------------------------------
-sudo apt-get update
-sudo apt-get upgrade -y
-
-# pythonをインストールする。
-echo ------------------------------
-echo pythonをインストールします。
-echo ------------------------------
-sudo apt-get install -y \
-    python3 \
-    python3-venv \
-    python3-pip
-
-# aliasを設定する。
-echo alias python=\'python3\' >> ~/.bash_aliases
-. ~/.bash_aliases
-
 # 仮想環境を構築する。
-cd $A_dpath
 for A_name in ${A_envnames[@]}; do
+    cd $A_dpath
     # 単一の仮想環境を構築するスクリプトを実行する。
-    . make_venv.sh $A_dpath $A_name $A_dpath/$A_name.txt
+    . build_venv.sh $A_dpath_env $A_name $A_dpath_env/$A_name.txt
 
     # 追加処理を行う。
     case $A_name in # 仮想環境名を設定する。

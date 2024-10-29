@@ -18,7 +18,11 @@
 
 ### 1. [WSLをインストールする](docs/install_wsl.md)
 
-### 2. [pythonの仮想環境を構築する](docs/install_python.md)
+### 2. pythonの仮想環境を構築する
+
+* [venv+pip](docs/build_venv_pip.md)で仮想環境の構築
+
+* [pyenv+venv+pip](docs/build_pyenv_venv_pip.md)で仮想環境の構築
 
 ### 3. シンボリックリンクを作成する
 
