@@ -15,7 +15,7 @@
 
     ``` none
     ~/
-    └── .env   # 仮想環境を構築するディレクトリ
+    └── .env           # 仮想環境を構築するディレクトリ
         └── <env-name> # 仮想環境
     ```
 
@@ -38,10 +38,11 @@
 
 ``` none
 data/venv_pip/
-├── activate.sh # 仮想環境を有効化するスクリプト
-└── .env        # 仮想環境を構築するディレクトリ
-    ├── build_venv.sh # 単一の仮想環境を構築するスクリプト
-    └── setup.sh      # Ubuntuパッケージの更新と複数の仮想環境を構築するスクリプト
+├── activate.sh           # 仮想環境を有効化するスクリプト
+└── .env                  # 仮想環境を構築するディレクトリ
+    ├── build_venv.sh     # 単一の仮想環境を構築するスクリプト
+    ├── install_python.sh # Ubuntuパッケージの更新とpythonをインストールするスクリプト
+    └── setup.sh          # 複数の仮想環境を構築するスクリプト
 ```
 
 ### 1. pipパッケージを記述したファイルを作成する
@@ -62,6 +63,7 @@ scikit-image
 ``` none
 .env
 ├── build_venv.sh
+├── install_python.sh
 ├── setup.sh
 ├── tf-gpu.txt   # tensorflowのpipパッケージ一覧のファイル
 └── to-gpu.txt   #    pytorchのpipパッケージ一覧のファイル
