@@ -16,9 +16,9 @@
 
     ``` none
     ~/
-    ├── .pyenv # pyenvのインストールディレクトリ
-    └── .env   # 仮想環境を構築するディレクトリ
-        └── python3.12.3 # pythonのバージョン3.12.3の仮想環境ディレクトリ
+    ├── .pyenv             # pyenvのインストールディレクトリ
+    └── .env               # 仮想環境を構築するディレクトリ
+        └── python3.12.3   # pythonのバージョン3.12.3の仮想環境ディレクトリ
             └── <env-name> # pythonのバージョン3.12.3に対応する仮想環境
     ```
 
@@ -45,11 +45,12 @@
 
 ``` none
 data/pyenv_venv_pip/
-├── activate.sh # 仮想環境を有効化するスクリプト
-└── .env        # 仮想環境を構築するディレクトリ
-    ├── build_venv.sh # 単一の仮想環境を構築するスクリプト
-    ├── setup.sh      # Ubuntuパッケージの更新と複数の仮想環境を構築するスクリプト
-    └── python3.12.3  # pythonのバージョン3.12.3の仮想環境ディレクトリ
+├── activate.sh          # 仮想環境を有効化するスクリプト
+└── .env                 # 仮想環境を構築するディレクトリ
+    ├── build_venv.sh    # 単一の仮想環境を構築するスクリプト
+    ├── install_pyenv.sh # Ubuntuパッケージの更新とpyenvをインストールするスクリプト
+    ├── setup.sh         # 複数の仮想環境を構築するスクリプト
+    └── python3.12.3     # pythonのバージョン3.12.3の仮想環境ディレクトリ
 ```
 
 ### 1. pipパッケージを記述したファイルを作成する
@@ -70,6 +71,7 @@ scikit-image
 ``` none
 .env
 ├── build_venv.sh
+├── install_pyenv.sh
 ├── setup.sh
 └── python3.12.3
     ├── tf-gpu.txt   # tensorflowのpipパッケージ一覧のファイル
