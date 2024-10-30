@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# WSLのUbuntu上にpythonをインストールするスクリプト
+# Ubuntu上にpythonをインストールするスクリプト
 #
 # 1. Ubuntuパッケージの更新
 # 2. pythonのインストール
@@ -27,5 +27,8 @@ sudo apt-get install -y \
     python3-pip
 
 # aliasを設定する。
+#   Ubuntuにデフォルトでは、~/.bash_aliasesはないが、
+#   ~/.bashrcでは、~/.bash_aliasesを呼び出すのでこれに設定する。
+echo '# Set python'
 echo alias python=\'python3\' >> ~/.bash_aliases
 . ~/.bash_aliases

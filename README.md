@@ -24,12 +24,22 @@
 
 * [pyenv+venv+pip](docs/build_pyenv_venv_pip.md)で仮想環境の構築
 
-### 3. シンボリックリンクを作成する
-
-``` bash
-# ln -s <Windowsのパス> <WSLのディストリビューションのパス>
-ln -s /mnt/c/Users/<user-name>/work/ ~/work
-```
+> [!TIP]
+>
+> **シンボリックリンクを作成する**
+>
+> Windows側にプロジェクトディレクトリがある方は、
+> WindowsとWSLのディレクトリ間でシンボリックリンクを作成しておくとよいだろう。
+>
+> ``` bash
+> ln -s <windows-dir-path> <wsl-dir-path>
+> ```
+>
+> |アクセス      |パス                                      |
+> |--------------|------------------------------------------|
+> |WSLからWindows|Cドライブの場合、`/mnt/c/`                |
+> |WindowsからWSL|エクスプローラーの場合、`\\wsl$`          |
+> |同上          |ターミナルの場合、`\\wsl.localhost\Ubuntu`|
 
 ## ライセンス
 

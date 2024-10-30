@@ -48,14 +48,14 @@ data/pyenv_venv_pip/
 ├── activate.sh          # 仮想環境を有効化するスクリプト
 └── .env                 # 仮想環境を構築するディレクトリ
     ├── build_venv.sh    # 単一の仮想環境を構築するスクリプト
-    ├── install_pyenv.sh # Ubuntuパッケージの更新とpyenvをインストールするスクリプト
+    ├── install_pyenv.sh # pyenvをインストールするスクリプト
     ├── setup.sh         # 複数の仮想環境を構築するスクリプト
     └── python3.12.3     # pythonのバージョン3.12.3の仮想環境ディレクトリ
 ```
 
 ### 1. pipパッケージを記述したファイルを作成する
 
-ファイル名は`<仮想環境名>.txt`として、`.env/python3.12.3/`ディレクトリに置いてください。
+ファイル名は`<env-name>.txt`として、`.env/python3.12.3/`ディレクトリに置いてください。
 
 ここでは、`tf-gpu.txt`と`to-gpu.txt`に以下を記述するとします。
 
@@ -121,12 +121,11 @@ scikit-image
     done
     ```
 
-## 2. Ubuntuパッケージの更新と仮想環境の構築
+## 2. 仮想環境の構築
 
 ### 1. Ubuntuにデータをコピーする
 
 ``` bash
-cd ~/
 cp -r /mnt/c/Users/<user-name>/work/data/pyenv_venv_pip/. ~/
 ```
 
@@ -140,7 +139,7 @@ source install_pyenv.sh
 ```
 
 [`install_pyenv.sh`](../data/pyenv_venv_pip/.env/install_pyenv.sh)は、下記を実行するスクリプトです。
-詳細は[公式手順](https://github.com/pyenv/pyenv)を参照してください。
+`pyenv`の詳細は[公式の手順](https://github.com/pyenv/pyenv)を参照してください。
 
 1. Ubuntuパッケージの更新
 2. pythonのビルド依存関係のパッケージのインストール
@@ -157,9 +156,8 @@ source setup.sh
 
 [`setup.sh`](../data/pyenv_venv_pip/.env/setup.sh)は、下記を実行するスクリプトです。
 
-1. Ubuntuパッケージの更新
-2. `build_venv.sh`の実行
-3. 仮想環境ごとの追加処理の実行
+1. `build_venv.sh`の実行
+2. 仮想環境ごとの追加処理の実行
 
 [`build_venv.sh`](../data/pyenv_venv_pip/.env/build_venv.sh)は、下記を実行するスクリプトです。
 
@@ -178,7 +176,7 @@ source setup.sh
 > 下記コマンドを実行すると、pythonのバージョンが記載された`.python-version`が作成されます。
 >
 > ``` bash
-> cd <project-dir>
+> cd <project-dir-path>
 > pyenv local <python-version>
 > ```
 >
@@ -195,26 +193,33 @@ source setup.sh
 > **仮想環境の有効化**
 >
 > ``` bash
-> # source ~/activate.sh <仮想環境名> (<pythonのバージョン>)
-> source ~/activate.sh tf-gpu 3.12.3
+> source ~/activate.sh <env-name>
 > ```
 >
-> (直接、`<仮想環境のパス>/bin/activate`を実行してもよいがパスの指定が面倒なため)
+> (直接、`<env-dir-path>/bin/activate`を実行してもよい)
 >
 > **単一の仮想環境の構築**
 >
 > ``` bash
-> # souce ~/.env/build_venv.sh <仮想環境を構築するディレクトリパス> <仮想環境名> <pipパッケージ一覧のファイルパス>
-> souce ~/.env/build_venv.sh ~/.env/python<python-version> tf-gpu ~/.env/python<python-version>/tf-gpu.txt
+> souce ~/.env/build_venv.sh ~/.env/ <env-name> ~/.env/<env-name>.txt
 > ```
 >
 > **pythonパッケージのバージョン管理**
 >
+> 仮想環境のpipパッケージのバージョンを保存するには、
+> 下記コマンドを実行する必要がある。
+>
 > ``` bash
-> pip freeze > requirement.txt
+> pip freeze > <file-name>.txt
 > ```
 >
-> **インストールされているpythonの表示**
+> また、ある仮想環境のpipパッケージをインストールするには、下記コマンドを実行する。
+>
+> ``` bash
+> pip install -r <file-name>.txt
+> ```
+>
+> **`pyenv`でインストールされているpythonの表示**
 >
 > ``` bash
 > pyenv versions

@@ -8,6 +8,7 @@
 
 |項目              |ライブラリ|
 |------------------|----------|
+|pythonのバージョン|なし      |
 |仮想環境          |venv      |
 |パッケージ        |pip       |
 
@@ -41,13 +42,13 @@ data/venv_pip/
 ├── activate.sh           # 仮想環境を有効化するスクリプト
 └── .env                  # 仮想環境を構築するディレクトリ
     ├── build_venv.sh     # 単一の仮想環境を構築するスクリプト
-    ├── install_python.sh # Ubuntuパッケージの更新とpythonをインストールするスクリプト
+    ├── install_python.sh # pythonをインストールするスクリプト
     └── setup.sh          # 複数の仮想環境を構築するスクリプト
 ```
 
 ### 1. pipパッケージを記述したファイルを作成する
 
-ファイル名は`<仮想環境名>.txt`として、`.env`ディレクトリに置いてください。
+ファイル名は`<env-name>.txt`として、`.env`ディレクトリに置いてください。
 
 ここでは、`tf-gpu.txt`と`to-gpu.txt`に以下を記述するとします。
 
@@ -71,47 +72,46 @@ scikit-image
 
 ### 2. [setup.sh](../data/venv_pip/.env/setup.sh)を編集する
 
-下記のように`A_envnames`に仮想環境名を設定します。
+* 下記のように`A_envnames`に仮想環境名を設定します。
 
-``` bash
-# 仮想環境名の配列
-# コメントアウトすれば、仮想環境を作らない。
-A_envnames=(
-    # tf-cpu  # tensorflow (cpu)
-    tf-gpu  # tensorflow (gpu)
-    to-gpu  # pytorch (gpu)
-)
-```
+    ``` bash
+    # 仮想環境名の配列
+    # コメントアウトすれば、仮想環境を作らない。
+    A_envnames=(
+        # tf-cpu  # tensorflow (cpu)
+        tf-gpu  # tensorflow (gpu)
+        to-gpu  # pytorch (gpu)
+    )
+    ```
 
-仮想環境ごとに他に処理を追加したい場合、case文の箇所に追加してください。
+* 仮想環境ごとに他に処理を追加したい場合、case文の箇所に追加します。
 
-``` bash
-for A_name in ${A_envnames[@]}; do
-    cd $A_dpath
-    # 単一の仮想環境を構築するスクリプトを実行する。
-    . build_venv.sh $A_dpath $A_name $A_dpath/$A_name.txt
+    ``` bash
+    for A_name in ${A_envnames[@]}; do
+        cd $A_dpath
+        # 単一の仮想環境を構築するスクリプトを実行する。
+        . build_venv.sh $A_dpath $A_name $A_dpath/$A_name.txt
 
-    # 追加処理を行う。
-    case $A_name in # 仮想環境名を設定する。
-        tf-cpu)
-            ;;
-        tf-gpu)
-            pip install tensorflow[and-cuda]
-            ;;
-        to-gpu)
-            pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-            ;;
-    esac
-done
-```
+        # 追加処理を行う。
+        case $A_name in # 仮想環境名を設定する。
+            tf-cpu)
+                ;;
+            tf-gpu)
+                pip install tensorflow[and-cuda]
+                ;;
+            to-gpu)
+                pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+                ;;
+        esac
+    done
+    ```
 
-## 2. Ubuntuパッケージの更新と仮想環境の構築
+## 2. 仮想環境の構築
 
 ### 1. Ubuntuにデータをコピーする
 
 ``` bash
-cd ~/
-cp -r /mnt/c/Users/<user_name>/work/data/venv_pip/. ~/
+cp -r /mnt/c/Users/<user-name>/work/data/venv_pip/. ~/
 ```
 
 ### 2. pythonをインストールする
@@ -150,21 +150,28 @@ source setup.sh
 > **仮想環境の有効化**
 >
 > ``` bash
-> # source ~/activate.sh <仮想環境名>
-> source ~/activate.sh tf-gpu
+> source ~/activate.sh <env-name>
 > ```
 >
-> (直接、`<仮想環境のパス>/bin/activate`を実行してもよいがパスの指定が面倒なため)
+> (直接、`<env-dir-path>/bin/activate`を実行してもよい)
 >
 > **単一の仮想環境の構築**
 >
 > ``` bash
-> # souce ~/.env/build_venv.sh <仮想環境を構築するディレクトリパス> <仮想環境名> <pipパッケージ一覧のファイルパス>
-> souce ~/.env/build_venv.sh ~/.env/ tf-gpu ~/.env/tf-gpu.txt
+> souce ~/.env/build_venv.sh ~/.env/ <env-name> ~/.env/<env-name>.txt
 > ```
 >
 > **pythonパッケージのバージョン管理**
 >
+> 仮想環境のpipパッケージのバージョンを保存するには、
+> 下記コマンドを実行する必要がある。
+>
 > ``` bash
-> pip freeze > requirement.txt
+> pip freeze > <file-name>.txt
+> ```
+>
+> また、ある仮想環境のpipパッケージをインストールするには、下記コマンドを実行する。
+>
+> ``` bash
+> pip install -r <file-name>.txt
 > ```

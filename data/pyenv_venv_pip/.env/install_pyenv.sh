@@ -59,8 +59,16 @@ echo ------------------------------
 echo pyenvをインストールします。
 echo ------------------------------
 curl https://pyenv.run | bash
-# 環境変数の設定(~/.bashrc, ~/.profile)
-fpath=(~/.bashrc ~/.profile)
+# 環境変数の設定
+#   pyenvの公式の手順には、
+#   ~/.bashrcと下記がある場合は設定するよう記載されている。
+#       - ~/.profile
+#       - ~/.bash_profile
+#       - ~/.bash_login
+#   Ubuntuには~/.profileがあるが、
+#   ~/.profileは、~/.bashrcを呼び出すので~/.bashrcにのみ設定する。
+# fpath=(~/.bashrc ~/.profile)
+fpath=(~/.bashrc)
 for name in ${fpath[@]}; do
     echo >> $name
     echo '# Set PYENV_ROOT' >> $name

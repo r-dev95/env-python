@@ -6,11 +6,11 @@
 
 WSL(Windows Subsystem for Linux)をインストールする手順を示します。
 
-ここでは、WSL上にUbuntuをインストールする前提で進めます。
-
 本手順は[Microsoftの公式手順][wsl]を参照しています。
 
 [wsl]: https://learn.microsoft.com/ja-jp/windows/wsl/install
+
+ここでは、WSL上にUbuntuをインストールする前提で進めます。
 
 ## 1. 準備(Windows機能の有効化)
 
@@ -55,13 +55,13 @@ wsl --install ubuntu
 
 ### 2. 初回起動時の設定を行う
 
-ユーザ名、パスワードを入力してください。
+ユーザ名とパスワードを入力してください。
 
-``` powershell
+``` none
 ...
-Enter new UNIX username: <ユーザ名>
-New password: <パスワード>
-Retype new password: <パスワード>
+Enter new UNIX username: <user-name>
+New password: <password>
+Retype new password: <password>
 ...
 ```
 
@@ -72,14 +72,13 @@ Retype new password: <パスワード>
 > **WSLバージョンの確認**
 >
 > ``` powershell
-> wsl -version # -v でもOK
+> wsl --version # -v でもOK
 > ```
 >
 > **ディストリビューションの起動**
 >
 > ``` powershell
-> # wsl -d <ディストリビューション名>
-> wsl -d ubuntu
+> wsl -d <distro-name>
 > ```
 >
 > **WSLと実行中ディストリビューションの停止**
@@ -91,34 +90,37 @@ Retype new password: <パスワード>
 > **インストール可能なディストリビューションの確認**
 >
 > ``` powershell
-> wsl -list -online # -l -o でもOK
+> wsl --list --online # -l -o でもOK
 > ```
 >
 > **インストール済みのディストリビューションの確認**
 >
 > ``` powershell
-> wsl -list -version # -l -v でもOK
+> wsl --list --version # -l -v でもOK
 > ```
 >
 > **インストール済みのディストリビューションの削除**
 >
 > ``` powershell
-> # wsl --unregister <ディストリビューション名>
-> wsl --unregister ubuntu
+> wsl --unregister <distro-name>
 > ```
 >
 > **ディストリビューションのエクスポート**
 >
 > ``` powershell
-> # wsl --export (--vhd) <ディストリビューション名> <ファイル名>
-> wsl --export ubuntu ubuntu.tgz # .tgzの場合
-> wsl --export --vhd ubuntu ubuntu.vhdx # .vhdxの場合
+> wsl --export <distro-name> <file-name>.tgz # .tgzの場合
+> ```
+>
+> ``` powershell
+> wsl --export --vhd <distro-name> <file-name>.vhdx # .vhdxの場合
 > ```
 >
 > **ディストリビューションのインポート**
 >
 > ``` powershell
-> # wsl --import (--vhd) <ディストリビューション名> <インポートパス> <ファイル名>
-> wsl --import ubuntu C:\Users\<user-name>\AppData\Local\Packages\ ubuntu.tgz
-> wsl --import --vhd ubuntu C:\Users\<user-name>\AppData\Local\Packages\ ubuntu.vhdx
+> wsl --import <distro-name> <import-dir-path> <file-name>.tgz # .tgzの場合
+> ```
+>
+> ``` powershell
+> wsl --import --vhd <distro-name> <import-dir-path> <file-name>.tgz # .vhdxの場合
 > ```
