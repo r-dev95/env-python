@@ -4,7 +4,15 @@
 # 1. Ubuntuパッケージの更新
 # 2. pythonのビルド依存関係のパッケージのインストール
 # 3. pyenvのインストール
+#       ~/.pyenvにインストールされる。
 # 4. pyenvの環境変数の設定
+#       pyenvの公式手順では、下記ファイルに設定するよう記載されている。
+#           - ~/.bashrc
+#           - ~/.profile      (ファイルが存在するなら)
+#           - ~/.bash_profile (ファイルが存在するなら)
+#           - ~/.bash_login   (ファイルが存在するなら)
+#       Ubuntuには~/.profileがあるが、その中で、
+#       ~/.bashrcを呼び出すので、~/.bashrcにのみ設定する。
 #
 # Note:
 #   pyenv installでpythonのインストールはしない。
@@ -60,13 +68,6 @@ echo pyenvをインストールします。
 echo ------------------------------
 curl https://pyenv.run | bash
 # 環境変数の設定
-#   pyenvの公式の手順には、
-#   ~/.bashrcと下記がある場合は設定するよう記載されている。
-#       - ~/.profile
-#       - ~/.bash_profile
-#       - ~/.bash_login
-#   Ubuntuには~/.profileがあるが、
-#   ~/.profileは、~/.bashrcを呼び出すので~/.bashrcにのみ設定する。
 # fpath=(~/.bashrc ~/.profile)
 fpath=(~/.bashrc)
 for name in ${fpath[@]}; do
