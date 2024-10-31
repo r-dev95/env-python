@@ -88,7 +88,7 @@ data/pyenv_venv_pip/
     └── python3.12.3     # pythonバージョン3.12.3の仮想環境ディレクトリ
 ```
 
-### 1. pythonパッケージを記述したファイルを作成する
+### 1.1. pythonパッケージを記述したファイルを作成する
 
 ファイル名は`<env-name>.txt`として、`.env/python3.12.3/`ディレクトリに置いてください。
 
@@ -113,7 +113,7 @@ scikit-image
     └── to-gpu.txt   #    pytorchのpythonパッケージ一覧のファイル
 ```
 
-### 2. [setup.sh](../data/pyenv_venv_pip/.env/setup.sh)を編集する
+### 1.2. [setup.sh](../data/pyenv_venv_pip/.env/setup.sh)を編集する
 
 * `A_python_ver`にpythonバージョンを設定します。
 
@@ -158,13 +158,13 @@ scikit-image
 
 ## 2. 仮想環境の構築
 
-### 1. Ubuntuにデータをコピーする
+### 2.1. Ubuntuにデータをコピーする
 
 ``` bash
 cp -r /mnt/c/Users/<user-name>/work/data/pyenv_venv_pip/. ~/
 ```
 
-### 2. `pyenv`をインストールする
+### 2.2. `pyenv`をインストールする
 
 実行後、必要に応じて`sudo`のパスワードを入力します。
 
@@ -180,7 +180,7 @@ source install_pyenv.sh
 3. `pyenv`のインストール
 4. `pyenv`の環境変数の設定
 
-### 3. `setup.sh`を実行する
+### 2.3. `setup.sh`を実行する
 
 実行後、必要に応じて`sudo`のパスワードを入力します。
 
@@ -200,6 +200,12 @@ source setup.sh
 3. `venv`で仮想環境の構築
 4. `pip`でpythonパッケージのインストール
 
+### 2.4. グローバルなpythonバージョンを設定する
+
+``` bash
+pyenv global <python-version>
+```
+
 **仮想環境の構築完了です。**
 
 > [!IMPORTANT]
@@ -216,9 +222,7 @@ source setup.sh
 > これにより、プロジェクトのディレクトリ内でpythonを実行した際、`.python-version`のバージョンで実行できます。
 >
 > pythonを実行した際、カレントディレクトリに`.python-version`がない場合、上の階層を順に探索し、pythonバージョンを設定します。
->
 > 見つからない場合は、`pyenv global`の設定が採用されます。
-> 本手順では、`global`は設定していないため、`pyenv global <python-version>`で設定してください。
 
 > [!TIP]
 > **仮想環境の有効化**

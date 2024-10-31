@@ -60,7 +60,7 @@ data/venv_pip/
     └── setup.sh          # 複数の仮想環境を構築するスクリプト
 ```
 
-### 1. pythonパッケージを記述したファイルを作成する
+### 1.1. pythonパッケージを記述したファイルを作成する
 
 ファイル名は`<env-name>.txt`として、`.env`ディレクトリに置いてください。
 
@@ -84,7 +84,7 @@ scikit-image
 └── to-gpu.txt   #    pytorchのpythonパッケージ一覧のファイル
 ```
 
-### 2. [setup.sh](../data/venv_pip/.env/setup.sh)を編集する
+### 1.2. [setup.sh](../data/venv_pip/.env/setup.sh)を編集する
 
 * 下記のように`A_envnames`に仮想環境名を設定します。
 
@@ -122,13 +122,13 @@ scikit-image
 
 ## 2. 仮想環境の構築
 
-### 1. Ubuntuにデータをコピーする
+### 2.1. Ubuntuにデータをコピーする
 
 ``` bash
 cp -r /mnt/c/Users/<user-name>/work/data/venv_pip/. ~/
 ```
 
-### 2. pythonをインストールする
+### 2.2. pythonをインストールする
 
 ``` bash
 cd ~/.env/
@@ -140,7 +140,7 @@ source install_python.sh
 1. Ubuntuパッケージの更新
 2. pythonのインストール
 
-### 3. `setup.sh`を実行する
+### 2.3. `setup.sh`を実行する
 
 実行後、必要に応じて`sudo`のパスワードを入力します。
 
