@@ -8,9 +8,9 @@
 # 4. pyenvの環境変数の設定
 #       pyenvの公式手順では、下記ファイルに設定するよう記載されている。
 #           - ~/.bashrc
-#           - ~/.profile      (ファイルが存在するなら)
-#           - ~/.bash_profile (ファイルが存在するなら)
-#           - ~/.bash_login   (ファイルが存在するなら)
+#           - ~/.profile      (ファイルが存在する場合)
+#           - ~/.bash_profile (ファイルが存在する場合)
+#           - ~/.bash_login   (ファイルが存在する場合)
 #       Ubuntuには~/.profileがあるが、その中で、
 #       ~/.bashrcを呼び出すので、~/.bashrcにのみ設定する。
 #
