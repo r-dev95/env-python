@@ -8,14 +8,28 @@
 
 |項目              |ライブラリ|
 |------------------|----------|
-|pythonのバージョン|なし      |
+|pythonバージョン  |なし      |
 |仮想環境          |venv      |
 |パッケージ        |pip       |
 
-* 仮想環境を構築した場合のディレクトリ構造の例
+本手順は、下記に示すような一般的な仮想環境構築の手順で複数の仮想環境を同時に構築するための手順となります。
+
+``` bash
+# 仮想環境の構築
+cd <env-dir-path>
+python -m venv <env-name>
+
+# 仮想環境の有効化
+source <env-name>/bin/activate
+
+# pythonパッケージのインストール
+pip install -r requirements.txt
+```
+
+* 本手順で仮想環境を構築した場合のディレクトリ構造の例
 
     ``` none
-    ~/
+    ~
     └── .env           # 仮想環境を構築するディレクトリ
         └── <env-name> # 仮想環境
     ```
@@ -46,7 +60,7 @@ data/venv_pip/
     └── setup.sh          # 複数の仮想環境を構築するスクリプト
 ```
 
-### 1. pipパッケージを記述したファイルを作成する
+### 1. pythonパッケージを記述したファイルを作成する
 
 ファイル名は`<env-name>.txt`として、`.env`ディレクトリに置いてください。
 
@@ -66,8 +80,8 @@ scikit-image
 ├── build_venv.sh
 ├── install_python.sh
 ├── setup.sh
-├── tf-gpu.txt   # tensorflowのpipパッケージ一覧のファイル
-└── to-gpu.txt   #    pytorchのpipパッケージ一覧のファイル
+├── tf-gpu.txt   # tensorflowのpythonパッケージ一覧のファイル
+└── to-gpu.txt   #    pytorchのpythonパッケージ一覧のファイル
 ```
 
 ### 2. [setup.sh](../data/venv_pip/.env/setup.sh)を編集する
@@ -163,14 +177,13 @@ source setup.sh
 >
 > **pythonパッケージのバージョン管理**
 >
-> 仮想環境のpipパッケージのバージョンを保存するには、
-> 下記コマンドを実行する必要があります。
+> 仮想環境のpythonパッケージのバージョンを保存するには、下記コマンドを実行する必要があります。
 >
 > ``` bash
 > pip freeze > <file-name>.txt
 > ```
 >
-> また、ある仮想環境のpipパッケージをインストールするには、下記コマンドを実行します。
+> また、ある仮想環境のpythonパッケージをインストールするには、下記コマンドを実行します。
 >
 > ``` bash
 > pip install -r <file-name>.txt

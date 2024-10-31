@@ -6,20 +6,53 @@
 
 下表のライブラリを使用したpythonの仮想環境の構築する手順を示します。
 
-|項目              |ライブラリ|
+|管理項目          |ライブラリ|
 |------------------|----------|
-|pythonのバージョン|pyenv     |
+|pythonバージョン  |pyenv     |
 |仮想環境          |venv      |
 |パッケージ        |pip       |
 
-* pythonのバージョンが`3.12.3`で、仮想環境を構築した場合のディレクトリ構造の例
+本手順は、下記に示すような一般的な仮想環境構築の手順で複数の仮想環境を同時に構築するための手順となります。
+
+``` bash
+# pyenvのインストール
+curl https://pyenv.run | bash
+
+# pythonのビルド依存関係パッケージのインストール
+sudo apt-get install <package-name>
+
+# pyenvの環境変数の設定
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+source ~/.bashrc
+
+# pythonのインストール
+pyenv install <python-version>
+
+# pythonバージョンのグローバル設定
+pyenv global <python-version>
+
+# 仮想環境の構築
+cd <env-dir-path>
+pyenv local <python-version> # 仮想環境で使用するpythonバージョンの設定
+python -m venv <env-name>
+
+# 仮想環境の有効化
+source <env-name>/bin/activate
+
+# pythonパッケージのインストール
+pip install -r requirements.txt
+```
+
+* 本手順でpythonバージョンが`3.12.3`の仮想環境を構築した場合のディレクトリ構造の例
 
     ``` none
     ~/
     ├── .pyenv             # pyenvのインストールディレクトリ
     └── .env               # 仮想環境を構築するディレクトリ
-        └── python3.12.3   # pythonのバージョン3.12.3の仮想環境ディレクトリ
-            └── <env-name> # pythonのバージョン3.12.3に対応する仮想環境
+        └── python3.12.3   # pythonバージョン3.12.3の仮想環境ディレクトリ
+            └── <env-name> # pythonバージョン3.12.3に対応する仮想環境
     ```
 
 ## はじめに
@@ -28,11 +61,11 @@
 
 * 仮想環境とプロジェクトのディレクトリは分けて構築します。
 
-  そのため、使用するpythonのバージョンは、仮想環境とプロジェクトのディレクトリのそれぞれに設定します。
+  そのため、使用するpythonバージョンは、仮想環境とプロジェクトのディレクトリのそれぞれに設定します。
 
 * WSLのUbuntu上に仮想環境を構築します。
 
-* pythonのバージョンは`3.12.3`で、以下の仮想環境を構築します。
+* pythonバージョンは`3.12.3`で、以下の仮想環境を構築します。
 
     * tensorflow
     * pytorch
@@ -50,10 +83,10 @@ data/pyenv_venv_pip/
     ├── build_venv.sh    # 単一の仮想環境を構築するスクリプト
     ├── install_pyenv.sh # pyenvをインストールするスクリプト
     ├── setup.sh         # 複数の仮想環境を構築するスクリプト
-    └── python3.12.3     # pythonのバージョン3.12.3の仮想環境ディレクトリ
+    └── python3.12.3     # pythonバージョン3.12.3の仮想環境ディレクトリ
 ```
 
-### 1. pipパッケージを記述したファイルを作成する
+### 1. pythonパッケージを記述したファイルを作成する
 
 ファイル名は`<env-name>.txt`として、`.env/python3.12.3/`ディレクトリに置いてください。
 
@@ -74,16 +107,16 @@ scikit-image
 ├── install_pyenv.sh
 ├── setup.sh
 └── python3.12.3
-    ├── tf-gpu.txt   # tensorflowのpipパッケージ一覧のファイル
-    └── to-gpu.txt   #    pytorchのpipパッケージ一覧のファイル
+    ├── tf-gpu.txt   # tensorflowのpythonパッケージ一覧のファイル
+    └── to-gpu.txt   #    pytorchのpythonパッケージ一覧のファイル
 ```
 
 ### 2. [setup.sh](../data/pyenv_venv_pip/.env/setup.sh)を編集する
 
-* `A_python_ver`にpythonのバージョンを設定します。
+* `A_python_ver`にpythonバージョンを設定します。
 
     ``` bash
-    # pythonのバージョン
+    # pythonバージョン
     A_python_ver=3.12.3
     ```
 
@@ -143,7 +176,7 @@ source install_pyenv.sh
 [`install_pyenv.sh`](../data/pyenv_venv_pip/.env/install_pyenv.sh)は、下記を実行するスクリプトです。
 
 1. Ubuntuパッケージの更新
-2. pythonのビルド依存関係のパッケージのインストール
+2. pythonのビルド依存関係パッケージのインストール
 3. `pyenv`のインストール
 4. `pyenv`の環境変数の設定
 
@@ -163,7 +196,7 @@ source setup.sh
 [`build_venv.sh`](../data/pyenv_venv_pip/.env/build_venv.sh)は、下記を実行するスクリプトです。
 
 1. `pyenv`でpythonのインストール
-2. `pyenv`でpythonのバージョンの設定
+2. `pyenv`でpythonバージョンの設定
 3. `venv`で仮想環境の構築
 4. `pip`でpythonパッケージのインストール
 
@@ -171,21 +204,18 @@ source setup.sh
 
 > [!IMPORTANT]
 >
-> 本手順では、仮想環境とプロジェクトのディレクトリを分けているため、
-> プロジェクトのディレクトリで使用するpythonのバージョンを設定する必要があります。
+> 本手順では、仮想環境とプロジェクトのディレクトリを分けているため、プロジェクトのディレクトリで使用するpythonバージョンを設定する必要があります。
 >
-> 下記コマンドを実行すると、pythonのバージョンが記載された`.python-version`が作成されます。
+> 下記コマンドを実行すると、pythonバージョンが記載された`.python-version`が作成されます。
 >
 > ``` bash
 > cd <project-dir-path>
 > pyenv local <python-version>
 > ```
 >
-> これにより、プロジェクトのディレクトリ内でpythonを実行した際、
-> `.python-version`のバージョンで実行できます。
+> これにより、プロジェクトのディレクトリ内でpythonを実行した際、`.python-version`のバージョンで実行できます。
 >
-> pythonを実行した際、カレントディレクトリに`.python-version`がない場合、
-> 上の階層を順に探索し、pythonのバージョンを設定します。
+> pythonを実行した際、カレントディレクトリに`.python-version`がない場合、上の階層を順に探索し、pythonバージョンを設定します。
 >
 > 見つからない場合は、`pyenv global`の設定が採用されます。
 > 本手順では、`global`は設定していないため、`pyenv global <python-version>`で設定してください。
@@ -207,14 +237,13 @@ source setup.sh
 >
 > **pythonパッケージのバージョン管理**
 >
-> 仮想環境のpipパッケージのバージョンを保存するには、
-> 下記コマンドを実行する必要があります。
+> 仮想環境のpythonパッケージのバージョンを保存するには、下記コマンドを実行する必要があります。
 >
 > ``` bash
 > pip freeze > <file-name>.txt
 > ```
 >
-> また、ある仮想環境のpipパッケージをインストールするには、下記コマンドを実行します。
+> また、ある仮想環境のpythonパッケージをインストールするには、下記コマンドを実行します。
 >
 > ``` bash
 > pip install -r <file-name>.txt
@@ -233,7 +262,7 @@ source setup.sh
 > * 3.12.3 (set by <project_dir>/.python-version)
 > ```
 >
-> インストール済みのpythonのバージョンの一覧と現在のディレクトリの設定が表示されます。
+> インストール済みのpythonバージョンの一覧と現在のディレクトリの設定が表示されます。
 >
 > `system`は`apt-get`等でインストールしたpyhtonのバージョンを指します。
 >

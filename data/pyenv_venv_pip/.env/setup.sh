@@ -5,10 +5,10 @@
 # 2. 仮想環境ごとの追加処理の実行
 #
 # 使用例:
-#   1. pipパッケージを記載したファイルを作成する。
+#   1. pythonパッケージを記載したファイルを作成する。
 #      ファイル名は<env-name>.txtとして、
 #       .env/python<python-version>/ディレクトリに置く。
-#   2. A_python_verにpythonのバージョンを設定する。
+#   2. A_python_verにpythonバージョンを設定する。
 #   3. A_envnamesに仮想環境名を設定する。
 #   4. 必要に応じて、case文に仮想環境ごとの処理を追加する。
 #
@@ -34,7 +34,7 @@ function A_unset_var() {
     unset A_unset_var
 }
 
-# pythonのバージョン
+# pythonバージョン
 A_python_ver=3.12.3
 # 仮想環境を構築するディレクトリパス
 A_dpath=~/.env/

@@ -2,7 +2,7 @@
 # pythonの仮想環境を構築するスクリプト
 #
 # 1. pyenvでpythonのインストール
-# 2. pyenvでpythonのバージョンの設定
+# 2. pyenvでpythonバージョンの設定
 # 3. venvで仮想環境の構築
 # 4. pipでpythonパッケージのインストール
 #
@@ -11,7 +11,7 @@
 #       $1: 必須 - 仮想環境を構築するディレクトリパス
 #                  パスの最後のディレクトリはpython<python-version>
 #       $2: 必須 - 仮想環境名
-#       $3: 必須 - pipパッケージ一覧のファイルパス
+#       $3: 必須 - pythonパッケージ一覧のファイルパス
 # -------------------------------------------------------------------
 #!/bin/bash
 
@@ -43,11 +43,11 @@ if [ -d $name ]; then
 fi
 if [ ! -f $fpath ]; then
     echo 'ファイルが存在しません。'
-    echo '$3: 必須 - pipパッケージ一覧のファイルパス: '$fpath
+    echo '$3: 必須 - pythonパッケージ一覧のファイルパス: '$fpath
     return 1
 fi
 
-# pythonのバージョンを取得する。
+# pythonバージョンを取得する。
 python_ver=(${dpath//// })
 python_ver=${python_ver[-1]//python/ }
 
@@ -60,10 +60,10 @@ pyenv install -s $python_ver
 # 仮想環境を構築する。
 echo '下記設定で仮想環境を構築します。'
 echo '--------------------------------------------------'
-echo 'pythonのバージョン: '$python_ver
+echo 'pythonバージョン: '$python_ver
 echo '仮想環境を構築するディレクトリパス: '$dpath
 echo '仮想環境名: '$name
-echo 'pipパッケージ一覧のファイルパス: '$fpath
+echo 'pythonパッケージ一覧のファイルパス: '$fpath
 echo '--------------------------------------------------'
 
 cd $dpath

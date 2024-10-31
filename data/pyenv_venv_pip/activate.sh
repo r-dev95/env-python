@@ -4,7 +4,7 @@
 # コマンド:
 #   source activate.sh $1 $2
 #       $1: 必須 - 仮想環境名
-#       $2:      - pythonのバージョン
+#       $2:      - pythonバージョン
 # --------------------------------------------------
 #!/bin/bash
 
@@ -41,14 +41,14 @@ dpath_env=$dpath$python_ver
 # 引数を確認する。
 if [ ! -d $dpath_env ]; then
     res=1
-    echo 'pythonのバージョンが'$python_ver'のディレクトリが存在しません。'
+    echo 'pythonバージョンが'$python_ver'のディレクトリが存在しません。'
     echo '仮想環境の親のディレクトリパス: '$dpath_env
     echo '$1: 必須 - 仮想環境名: '$envname
-    echo '$2:      - pythonのバージョン: '$python_ver
+    echo '$2:      - pythonバージョン: '$python_ver
     return $res
 fi
 
-# 構築済みの仮想環境のpythonのバージョンを取得する。
+# 構築済みの仮想環境のpythonバージョンを取得する。
 for name in $(find $dpath_py -maxdepth 0 -type d); do
     name=(${name//// })
     versions+=(${name[-1]})
@@ -83,7 +83,7 @@ else
             name=(${name//// })
             envnames+=(${name[-3]})
         done
-        echo 'pythonのバージョン: '$version
+        echo 'pythonバージョン: '$version
         echo '仮想環境:'
         for name in ${envnames[@]}; do
             echo '    '${name}
