@@ -12,6 +12,8 @@
 |仮想環境          |venv      |
 |パッケージ        |pip       |
 
+`pyenv`の詳細は[公式の手順](https://github.com/pyenv/pyenv)を参照してください。
+
 本手順は、下記に示すような一般的な仮想環境構築の手順で複数の仮想環境を同時に構築するための手順となります。
 
 ``` bash
@@ -45,16 +47,6 @@ source <env-name>/bin/activate
 pip install -r requirements.txt
 ```
 
-* 本手順でpythonバージョンが`3.12.3`の仮想環境を構築した場合のディレクトリ構造の例
-
-    ``` none
-    ~/
-    ├── .pyenv             # pyenvのインストールディレクトリ
-    └── .env               # 仮想環境を構築するディレクトリ
-        └── python3.12.3   # pythonバージョン3.12.3の仮想環境ディレクトリ
-            └── <env-name> # pythonバージョン3.12.3に対応する仮想環境
-    ```
-
 ## はじめに
 
 はじめに、本手順における前提を示します。
@@ -71,6 +63,16 @@ pip install -r requirements.txt
     * pytorch
 
 * 使用するデータは、Windows側の`/mnt/c/Users/<user-name>/work/data/pyenv_venv_pip/`にあることとします。
+
+* 本手順でpythonバージョンが`3.12.3`の仮想環境を構築した場合のディレクトリ構造の例
+
+    ``` none
+    ~/
+    ├── .pyenv             # pyenvのインストールディレクトリ
+    └── .env               # 仮想環境を構築するディレクトリ
+        └── python3.12.3   # pythonバージョン3.12.3の仮想環境ディレクトリ
+            └── <env-name> # pythonバージョン3.12.3に対応する仮想環境
+    ```
 
 ## 1. データ準備
 
@@ -170,8 +172,6 @@ cp -r /mnt/c/Users/<user-name>/work/data/pyenv_venv_pip/. ~/
 cd ~/.env/
 source install_pyenv.sh
 ```
-
-`pyenv`の詳細は[公式の手順](https://github.com/pyenv/pyenv)を参照してください。
 
 [`install_pyenv.sh`](../data/pyenv_venv_pip/.env/install_pyenv.sh)は、下記を実行するスクリプトです。
 

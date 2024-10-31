@@ -26,14 +26,6 @@ source <env-name>/bin/activate
 pip install -r requirements.txt
 ```
 
-* 本手順で仮想環境を構築した場合のディレクトリ構造の例
-
-    ``` none
-    ~
-    └── .env           # 仮想環境を構築するディレクトリ
-        └── <env-name> # 仮想環境
-    ```
-
 ## はじめに
 
 はじめに、本手順における前提を示します。
@@ -46,6 +38,14 @@ pip install -r requirements.txt
     * pytorch
 
 * 使用するデータは、Windows側の`/mnt/c/Users/<user-name>/work/data/venv_pip/`にあることとします。
+
+* 本手順で仮想環境を構築した場合のディレクトリ構造の例
+
+    ``` none
+    ~
+    └── .env           # 仮想環境を構築するディレクトリ
+        └── <env-name> # 仮想環境
+    ```
 
 ## 1. データ準備
 
