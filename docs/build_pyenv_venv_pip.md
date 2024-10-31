@@ -138,8 +138,9 @@ cd ~/.env/
 source install_pyenv.sh
 ```
 
-[`install_pyenv.sh`](../data/pyenv_venv_pip/.env/install_pyenv.sh)は、下記を実行するスクリプトです。
 `pyenv`の詳細は[公式の手順](https://github.com/pyenv/pyenv)を参照してください。
+
+[`install_pyenv.sh`](../data/pyenv_venv_pip/.env/install_pyenv.sh)は、下記を実行するスクリプトです。
 
 1. Ubuntuパッケージの更新
 2. pythonのビルド依存関係のパッケージのインストール
@@ -196,7 +197,7 @@ source setup.sh
 > source ~/activate.sh <env-name>
 > ```
 >
-> (直接、`<env-dir-path>/bin/activate`を実行してもよい)
+> (直接、`source <env-dir-path>/bin/activate`を実行してもOKです)
 >
 > **単一の仮想環境の構築**
 >
@@ -207,13 +208,13 @@ source setup.sh
 > **pythonパッケージのバージョン管理**
 >
 > 仮想環境のpipパッケージのバージョンを保存するには、
-> 下記コマンドを実行する必要がある。
+> 下記コマンドを実行する必要があります。
 >
 > ``` bash
 > pip freeze > <file-name>.txt
 > ```
 >
-> また、ある仮想環境のpipパッケージをインストールするには、下記コマンドを実行する。
+> また、ある仮想環境のpipパッケージをインストールするには、下記コマンドを実行します。
 >
 > ``` bash
 > pip install -r <file-name>.txt

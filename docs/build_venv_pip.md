@@ -59,7 +59,7 @@ scikit-learn
 scikit-image
 ```
 
-`.env`ディレクトリは以下のようになっていれば、OKです。
+`.env`ディレクトリは、以下のようになっていればOKです。
 
 ``` none
 .env
@@ -153,7 +153,7 @@ source setup.sh
 > source ~/activate.sh <env-name>
 > ```
 >
-> (直接、`<env-dir-path>/bin/activate`を実行してもよい)
+> (直接、`source <env-dir-path>/bin/activate`を実行してもOKです)
 >
 > **単一の仮想環境の構築**
 >
@@ -164,13 +164,13 @@ source setup.sh
 > **pythonパッケージのバージョン管理**
 >
 > 仮想環境のpipパッケージのバージョンを保存するには、
-> 下記コマンドを実行する必要がある。
+> 下記コマンドを実行する必要があります。
 >
 > ``` bash
 > pip freeze > <file-name>.txt
 > ```
 >
-> また、ある仮想環境のpipパッケージをインストールするには、下記コマンドを実行する。
+> また、ある仮想環境のpipパッケージをインストールするには、下記コマンドを実行します。
 >
 > ``` bash
 > pip install -r <file-name>.txt
