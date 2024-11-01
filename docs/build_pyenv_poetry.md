@@ -169,68 +169,35 @@ source install_poetry.sh
 1. `poetry`のインストール
 1. `poetry`の環境変数の設定
 1. `poetry`のタブ補完の有効化
+1. `poetry`のキャッシュディレクトリの変更(仮想環境の構築ディレクトリも変わる)
 
 ### 2.4. プロジェクトと仮想環境を構築する
 
-#### 2.4.1 pythonをインストールする
-
-``` bash
-pyenv install <python-version>
-pyenv global <python-version>
-```
-
-#### 2.4.2 仮想環境を構築するディレクトリを変更する
-
-``` bash
-poetry config cache-dir ~/.env
-```
-
-これにより、poetryのキャッシュディレクトリが変更され、仮想環境は`~/.env/virtualenvs`に構築されるようになります。
-
-#### 2.4.3 プロジェクトを作成する
-
-``` bash
-cd ~/work
-poetry new tf-gpu
-```
-
-* プロジェクトディレクトリが既に存在する場合
-
-    ``` bash
-    poetry init
-    ```
-
-#### 2.4.4 pythonバージョンを設定する
-
-プロジェクトディレクトリに作成された`pyproject.toml`の`python = "..."`の部分を編集し、下記コマンドを実行します。
-
-``` bash
-cd tf-gpu
-pyenv local <python-version>
-poetry env use <python-version>
-```
-
-`pyproject.toml`の`python = "..."`に設定するバージョンは、あくまで条件であり、これを満たす限り、使用するバージョンは、`poetry env use`コマンドで設定できます。
-
-#### 2.4.5 pythonパッケージをインストールする
-
 ``` bash
 cd ~/.env
-source poetry_add.sh ~/work/tf-gpu ~/.env/tf-gpu.txt
-source poetry_add.sh ~/work/tf-gpu ~/.env/docs.txt docs
+source make_project.sh ~/work tf-gpu "~/.env/tf-gpu.txt ~/.env/docs.txt" "main docs" <python-version>
 ```
 
-`poetry_add.sh`の使い方を下記に示します。
+`make_project.sh`の使い方を下記に示します。
 
 ``` bash
-source poetry_add.sh $1 $2 $3
+source make_project.sh $1 $2 $3 $4 $5
 # 引数の説明:
-# $1: 必須 - プロジェクトのディレクトリパス
-# $2: 必須 - pythonパッケージ一覧のファイルパス
-# $3:      - poetry addのグループ(デフォルトはmain)
+# $1: 必須 - プロジェクトディレクトリの親パス
+# $2: 必須 - プロジェクト名
+# $3: 必須 - pythonパッケージ一覧のファイルパス
+#            複数指定する場合、スペースで区切り全体をクォーテーションで囲む。
+# $4: 必須 - poetry add --groupのグループ(デフォルトはmain)
+#            複数指定する場合、スペースで区切り全体をクォーテーションで囲む。
+#            pythonパッケージ一覧ファイルに対応するように同じ数だけ指定する。
+# $5: 必須 - pythonバージョン
 ```
 
-[`poetry_add.sh`](../data/pyenv_poetry/.env/poetry_add.sh)は、`poetry add`でpythonパッケージをインストールするスクリプトです。
+[`make_project.sh`](../data/pyenv_poetry/.env/make_project.sh)は、下記を実行するスクリプトです。
+
+1. `pyenv`でpythonのインストール(既に存在する場合はスキップ)
+1. `poetry`でプロジェクトの作成
+1. `poetry`でpythonパッケージのインストール(自動で仮想環境も構築される)
 
 > [!IMPORTANT]
 >
@@ -304,3 +271,13 @@ source poetry_add.sh $1 $2 $3
 > ``` bash
 > poetry env list
 > ```
+>
+> **使用するpythonバージョンの設定**
+>
+> プロジェクトディレクトリに作成された`pyproject.toml`の`python = "..."`の部分を編集し、下記コマンドを実行します。
+>
+> ``` bash
+> poetry env use <python-version>
+> ```
+>
+> `pyproject.toml`の`python = "..."`に設定するバージョンは、あくまで条件であり、これを満たす限り、使用するバージョンは、`poetry env use`コマンドで設定できます。

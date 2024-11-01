@@ -11,6 +11,7 @@
 #       Ubuntuでは、~/.profileで$HOME/.local/binを設定している。
 #       そのため、~/.profileを呼び出すだけとする。
 # 4. poetryのタブ補完の有効化
+# 5. poetryのキャッシュディレクトリの変更(仮想環境の構築ディレクトリも変わる)
 #
 # コマンド:
 #   source install_poetry.sh
@@ -20,13 +21,14 @@
 
 # 変数と関数をunsetする関数。
 function unset_var() {
-    unset fpath
-    unset name
+    unset dpath
     unset unset_var
 }
 
-cd ~/
+# 仮想環境を構築するディレクトリパス
+dpath=~/.env
 
+cd ~/
 # Ubuntuのパッケージを更新する。
 echo ------------------------------
 echo Ubuntuパッケージを更新します。
@@ -39,12 +41,14 @@ echo ------------------------------
 echo poetryをインストールします。
 echo ------------------------------
 curl -sSL https://install.python-poetry.org | python3 -
-# 環境変数の設定
+# 環境変数を設定する
 . ~/.profile
-# タブ補完の有効化
+# タブ補完を有効化する
 poetry completions bash >> ~/.bash_completion
 . ~/.bash_completion
+# 仮想環境を構築するディレクトリを変更する
+poetry config cache-dir $dpath
 
-cd ~/.env/
+cd $dpath
 
 unset_var
