@@ -29,6 +29,6 @@ sudo apt-get install -y \
 # aliasを設定する。
 #   Ubuntuにデフォルトでは、~/.bash_aliasesはないが、
 #   ~/.bashrcでは、~/.bash_aliasesを呼び出すのでこれに設定する。
-echo '# Set python'
+echo '# Set python' >> ~/.bash_aliases
 echo alias python=\'python3\' >> ~/.bash_aliases
 . ~/.bash_aliases
