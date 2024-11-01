@@ -135,7 +135,7 @@ source build_venv.sh ~/.env tf-gpu ~/.env/tf-gpu.txt 3.12.3
 ``` bash
 source build_venv.sh $1 $2 $3 $4
 # 引数の説明:
-# $1: 必須 - 仮想環境を構築する親ディレクトリパス
+# $1: 必須 - 構築する仮想環境ディレクトリの親パス
 # $2: 必須 - 仮想環境名
 # $3: 必須 - pythonパッケージの一覧のファイルパス
 # $4: 必須 - pythonバージョン
