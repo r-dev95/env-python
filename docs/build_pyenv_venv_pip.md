@@ -141,10 +141,10 @@ source build_venv.sh $1 $2 $3 $4
 # $4: 必須 - pythonバージョン
 ```
 
-[`build_venv.sh`](../data/venv_pip/.env/build_venv.sh)は、下記を実行するスクリプトです。
+[`build_venv.sh`](../data/pyenv_venv_pip/.env/build_venv.sh)は、下記を実行するスクリプトです。
 
 1. `pyenv`でpythonのインストール
-1. `pyenv`でpythonバージョンの設定
+1. `pyenv`でpythonバージョンのローカル設定
 1. `venv`で仮想環境の構築
 1. `pip`でpythonパッケージのインストール
 

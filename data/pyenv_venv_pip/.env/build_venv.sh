@@ -2,7 +2,7 @@
 # pythonの仮想環境を構築するスクリプト
 #
 # 1. pyenvでpythonのインストール
-# 2. pyenvでpythonバージョンの設定
+# 2. pyenvでpythonバージョンのローカル設定
 # 3. venvで仮想環境の構築
 # 4. pipでpythonパッケージのインストール
 #
