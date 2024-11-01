@@ -1,9 +1,0 @@
-matplotlib
-pandas
-pyyaml
-scipy
-tensorflow
-sphinx
-sphinx-autobuild
-sphinx-rtd_theme
-myst-parser
