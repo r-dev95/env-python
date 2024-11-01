@@ -8,10 +8,10 @@
 #
 # コマンド:
 #   source build_venv.sh $1 $2 $3
-#       $1: 必須 - 仮想環境を構築するディレクトリパス
-#                  パスの最後のディレクトリはpython<python-version>
+#       $1: 必須 - 仮想環境を構築する親ディレクトリパス
 #       $2: 必須 - 仮想環境名
 #       $3: 必須 - pythonパッケージ一覧のファイルパス
+#       $4: 必須 - pythonバージョン
 # -------------------------------------------------------------------
 #!/bin/bash
 
@@ -28,6 +28,7 @@ function unset_var() {
 dpath=$1
 name=$2
 fpath=$3
+python_ver=$4
 
 # 引数を確認する。
 if [ ! -d $dpath ]; then
@@ -47,16 +48,6 @@ if [ ! -f $fpath ]; then
     return 1
 fi
 
-# pythonバージョンを取得する。
-python_ver=(${dpath//// })
-python_ver=${python_ver[-1]//python/ }
-
-# pythonをインストールする。
-echo ------------------------------
-echo pythonをインストールします。
-echo ------------------------------
-pyenv install -s $python_ver
-
 # 仮想環境を構築する。
 echo '下記設定で仮想環境を構築します。'
 echo '--------------------------------------------------'
@@ -67,6 +58,7 @@ echo 'pythonパッケージ一覧のファイルパス: '$fpath
 echo '--------------------------------------------------'
 
 cd $dpath
+pyenv install -s $python_ver
 pyenv local $python_ver
 python -m venv $name
 . $dpath/$name/bin/activate

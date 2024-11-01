@@ -71,10 +71,9 @@ pip install -r requirements.txt
 
 ``` none
 ~/
-├── .pyenv             # pyenvのインストールディレクトリ
-└── .env               # 仮想環境を構築するディレクトリ
-    └── python3.12.3   # pythonバージョン3.12.3の仮想環境ディレクトリ
-        └── <env-name> # pythonバージョン3.12.3に対応する仮想環境
+├── .pyenv         # pyenvのインストールディレクトリ
+└── .env           # 仮想環境を構築するディレクトリ
+    └── <env-name> # 仮想環境
 ```
 
 ## 1. データ準備
@@ -86,13 +85,12 @@ data/pyenv_venv_pip/
 ├── activate.sh          # 仮想環境を有効化するスクリプト
 └── .env                 # 仮想環境を構築するディレクトリ
     ├── build_venv.sh    # 単一の仮想環境を構築するスクリプト
-    ├── install_pyenv.sh # pyenvをインストールするスクリプト
-    └── python3.12.3     # pythonバージョン3.12.3の仮想環境ディレクトリ
+    └── install_pyenv.sh # pyenvをインストールするスクリプト
 ```
 
 ### pythonパッケージを記述したファイルを作成する
 
-ここでは、以下を`tf-gpu.txt`に記述し、`.env/python3.12.3/`ディレクトリに置くこととします。
+ここでは、以下を`tf-gpu.txt`に記述し、`.env/`ディレクトリに置くこととします。
 
 ``` none
 matplotlib
@@ -129,18 +127,18 @@ source install_pyenv.sh
 ### 2.3. 仮想環境を構築する
 
 ``` bash
-source build_venv.sh ~/.env/python3.12.3 tf-gpu ~/.env/python3.12.3/tf-gpu.txt
+source build_venv.sh ~/.env tf-gpu ~/.env/tf-gpu.txt 3.12.3
 ```
 
 `build_venv.sh`の使い方を下記に示します。
 
 ``` bash
-source build_venv.sh $1 $2 $3
+source build_venv.sh $1 $2 $3 $4
 # 引数の説明:
 # $1: 必須 - 仮想環境を構築する親ディレクトリパス
-#            パスの最後のディレクトリはpython<python-version>
 # $2: 必須 - 仮想環境名
 # $3: 必須 - pythonパッケージの一覧のファイルパス
+# $4: 必須 - pythonバージョン
 ```
 
 [`build_venv.sh`](../data/venv_pip/.env/build_venv.sh)は、下記を実行するスクリプトです。
@@ -178,16 +176,7 @@ pyenv global <python-version>
 > **仮想環境の有効化**
 >
 > ``` bash
-> source ~/activate.sh <env-name> (<python-version>)
-> ```
->
-> `activate.sh`の使い方を下記に示します。
->
-> ``` bash
-> source ~/activate.sh $1 $2
-> # 引数の説明:
-> # $1: 必須 - 仮想環境名
-> # $2:      - pythonバージョン (デフォルトはファイル内で設定しています)
+> source ~/activate.sh <env-name>
 > ```
 >
 > (直接、`source <env-dir-path>/bin/activate`を実行してもOKです)
