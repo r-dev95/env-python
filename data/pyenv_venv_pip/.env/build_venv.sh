@@ -34,7 +34,6 @@ python_ver=$4
 if [ ! -d $dpath ]; then
     echo 'ディレクトリが存在しません。'
     echo '$1: 必須 - 仮想環境を構築するディレクトリパス: '$dpath
-    echo '           パスの最後のディレクトリはpython<python-version>'
     return 1
 fi
 if [ -d $name ]; then
