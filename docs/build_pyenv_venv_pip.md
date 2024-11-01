@@ -154,8 +154,6 @@ source build_venv.sh $1 $2 $3 $4
 pyenv global <python-version>
 ```
 
-**仮想環境の構築完了です。**
-
 > [!IMPORTANT]
 >
 > 本手順では、仮想環境とプロジェクトのディレクトリを分けているため、プロジェクトのディレクトリで使用するpythonバージョンを設定する必要があります。
@@ -171,6 +169,8 @@ pyenv global <python-version>
 >
 > pythonを実行した際、カレントディレクトリに`.python-version`がない場合、上の階層を順に探索し、pythonバージョンを設定します。
 > 見つからない場合は、`pyenv global`の設定が採用されます。
+
+**仮想環境の構築完了です。**
 
 > [!TIP]
 > **仮想環境の有効化**
