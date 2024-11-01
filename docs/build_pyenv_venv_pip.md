@@ -6,15 +6,21 @@
 
 下表のライブラリを使用したpythonの仮想環境の構築する手順を示します。
 
-|管理項目          |ライブラリ|
-|------------------|----------|
-|pythonバージョン  |pyenv     |
-|仮想環境          |venv      |
-|パッケージ        |pip       |
+|管理項目          |ライブラリ|参考           |
+|------------------|----------|---------------|
+|pythonバージョン  |pyenv     |[github][pyenv]|
+|仮想環境          |venv      |[docs][venv]   |
+|パッケージ        |pip       |[docs][pip]    |
 
-`pyenv`の詳細は[公式の手順](https://github.com/pyenv/pyenv)を参照してください。
+[pyenv]: https://github.com/pyenv/pyenv
+[venv]: https://docs.python.org/ja/3/library/venv.html
+[pip]: https://pip.pypa.io/en/stable/
 
-本手順は、下記に示すような一般的な仮想環境構築の手順で複数の仮想環境を同時に構築するための手順となります。
+一般的な仮想環境の構築手順を下記に示します。
+
+難しくない手順ですが、複数の環境を構築するためにこれらの操作を繰り返し行うのは面倒です。
+
+本手順は、これらの操作を簡略化するためのスクリプトの使い方を示します。
 
 ``` bash
 # pyenvのインストール
@@ -49,7 +55,7 @@ pip install -r requirements.txt
 
 ## はじめに
 
-はじめに、本手順における前提を示します。
+### 説明のための設定
 
 * 仮想環境とプロジェクトのディレクトリは分けて構築します。
 
@@ -57,22 +63,19 @@ pip install -r requirements.txt
 
 * WSLのUbuntu上に仮想環境を構築します。
 
-* pythonバージョンは`3.12.3`で、以下の仮想環境を構築します。
+* pythonバージョンは`3.12.3`で、[tensorflow](https://www.tensorflow.org/)の仮想環境を構築します。
 
-    * tensorflow
-    * pytorch
+* 使用するデータは、`/mnt/c/Users/<user-name>/work/data/pyenv_venv_pip/`にあることとします。
 
-* 使用するデータは、Windows側の`/mnt/c/Users/<user-name>/work/data/pyenv_venv_pip/`にあることとします。
+### 仮想環境構築後のディレクトリ構造のイメージ
 
-* 本手順でpythonバージョンが`3.12.3`の仮想環境を構築した場合のディレクトリ構造の例
-
-    ``` none
-    ~/
-    ├── .pyenv             # pyenvのインストールディレクトリ
-    └── .env               # 仮想環境を構築するディレクトリ
-        └── python3.12.3   # pythonバージョン3.12.3の仮想環境ディレクトリ
-            └── <env-name> # pythonバージョン3.12.3に対応する仮想環境
-    ```
+``` none
+~/
+├── .pyenv             # pyenvのインストールディレクトリ
+└── .env               # 仮想環境を構築するディレクトリ
+    └── python3.12.3   # pythonバージョン3.12.3の仮想環境ディレクトリ
+        └── <env-name> # pythonバージョン3.12.3に対応する仮想環境
+```
 
 ## 1. データ準備
 
@@ -84,77 +87,20 @@ data/pyenv_venv_pip/
 └── .env                 # 仮想環境を構築するディレクトリ
     ├── build_venv.sh    # 単一の仮想環境を構築するスクリプト
     ├── install_pyenv.sh # pyenvをインストールするスクリプト
-    ├── setup.sh         # 複数の仮想環境を構築するスクリプト
     └── python3.12.3     # pythonバージョン3.12.3の仮想環境ディレクトリ
 ```
 
-### 1.1. pythonパッケージを記述したファイルを作成する
+### pythonパッケージを記述したファイルを作成する
 
-ファイル名は`<env-name>.txt`として、`.env/python3.12.3/`ディレクトリに置いてください。
-
-ここでは、`tf-gpu.txt`と`to-gpu.txt`に以下を記述するとします。
+ここでは、以下を`tf-gpu.txt`に記述し、`.env/python3.12.3/`ディレクトリに置くこととします。
 
 ``` none
 matplotlib
 pandas==2.2.3 # バージョンを指定したい場合
 scikit-learn
 scikit-image
+tensorflow[and-cuda]
 ```
-
-`.env/python3.12.3/`ディレクトリは、以下のようになっていればOKです。
-
-``` none
-.env
-├── build_venv.sh
-├── install_pyenv.sh
-├── setup.sh
-└── python3.12.3
-    ├── tf-gpu.txt   # tensorflowのpythonパッケージ一覧のファイル
-    └── to-gpu.txt   #    pytorchのpythonパッケージ一覧のファイル
-```
-
-### 1.2. [setup.sh](../data/pyenv_venv_pip/.env/setup.sh)を編集する
-
-* `A_python_ver`にpythonバージョンを設定します。
-
-    ``` bash
-    # pythonバージョン
-    A_python_ver=3.12.3
-    ```
-
-* `A_envnames`に仮想環境名を設定します。
-
-    ``` bash
-    # 仮想環境名の配列
-    # コメントアウトすれば、仮想環境を作らない。
-    A_envnames=(
-        # tf-cpu  # tensorflow (cpu)
-        tf-gpu  # tensorflow (gpu)
-        to-gpu  # pytorch (gpu)
-    )
-    ```
-
-* 仮想環境ごとに他に処理を追加したい場合、case文の箇所に追加します。
-
-    ``` bash
-    for A_name in ${A_envnames[@]}; do
-        cd $A_dpath
-        # 単一の仮想環境を構築するスクリプトを実行する。
-        . build_venv.sh $A_dpath $A_name $A_dpath/$A_name.txt
-
-        # 追加処理を行う。
-        case $A_name in # 仮想環境名を設定する。
-            tf-cpu)
-                ;;
-            tf-gpu)
-                pip install tensorflow[and-cuda]
-                ;;
-            to-gpu)
-                pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-                ;;
-        esac
-    done
-    ```
 
 ## 2. 仮想環境の構築
 
@@ -176,29 +122,33 @@ source install_pyenv.sh
 [`install_pyenv.sh`](../data/pyenv_venv_pip/.env/install_pyenv.sh)は、下記を実行するスクリプトです。
 
 1. Ubuntuパッケージの更新
-2. pythonのビルド依存関係パッケージのインストール
-3. `pyenv`のインストール
-4. `pyenv`の環境変数の設定
+1. pythonのビルド依存関係パッケージのインストール
+1. `pyenv`のインストール
+1. `pyenv`の環境変数の設定
 
-### 2.3. `setup.sh`を実行する
-
-実行後、必要に応じて`sudo`のパスワードを入力します。
+### 2.3. 仮想環境を構築する
 
 ``` bash
-source setup.sh
+source build_venv.sh ~/.env/python3.12.3 tf-gpu ~/.env/python3.12.3/tf-gpu.txt
 ```
 
-[`setup.sh`](../data/pyenv_venv_pip/.env/setup.sh)は、下記を実行するスクリプトです。
+`build_venv.sh`の使い方を下記に示します。
 
-1. `build_venv.sh`の実行
-2. 仮想環境ごとの追加処理の実行
+``` bash
+source build_venv.sh $1 $2 $3
+# 引数の説明:
+# $1: 必須 - 仮想環境を構築する親ディレクトリパス
+#            パスの最後のディレクトリはpython<python-version>
+# $2: 必須 - 仮想環境名
+# $3: 必須 - pythonパッケージの一覧のファイルパス
+```
 
-[`build_venv.sh`](../data/pyenv_venv_pip/.env/build_venv.sh)は、下記を実行するスクリプトです。
+[`build_venv.sh`](../data/venv_pip/.env/build_venv.sh)は、下記を実行するスクリプトです。
 
 1. `pyenv`でpythonのインストール
-2. `pyenv`でpythonバージョンの設定
-3. `venv`で仮想環境の構築
-4. `pip`でpythonパッケージのインストール
+1. `pyenv`でpythonバージョンの設定
+1. `venv`で仮想環境の構築
+1. `pip`でpythonパッケージのインストール
 
 ### 2.4. グローバルなpythonバージョンを設定する
 
@@ -228,16 +178,19 @@ pyenv global <python-version>
 > **仮想環境の有効化**
 >
 > ``` bash
-> source ~/activate.sh <env-name>
+> source ~/activate.sh <env-name> (<python-version>)
+> ```
+>
+> `activate.sh`の使い方を下記に示します。
+>
+> ``` bash
+> source ~/activate.sh $1 $2
+> # 引数の説明:
+> # $1: 必須 - 仮想環境名
+> # $2:      - pythonバージョン (デフォルトはファイル内で設定しています)
 > ```
 >
 > (直接、`source <env-dir-path>/bin/activate`を実行してもOKです)
->
-> **単一の仮想環境の構築**
->
-> ``` bash
-> souce ~/.env/build_venv.sh ~/.env/ <env-name> ~/.env/<env-name>.txt
-> ```
 >
 > **pythonパッケージのバージョン管理**
 >
@@ -259,9 +212,8 @@ pyenv global <python-version>
 > pyenv versions
 > ```
 >
-> 出力の例
->
 > ``` bash
+> # 出力の例
 >   system
 > * 3.12.3 (set by <project_dir>/.python-version)
 > ```

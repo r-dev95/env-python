@@ -6,13 +6,20 @@
 
 下表のライブラリを使用したpythonの仮想環境の構築する手順を示します。
 
-|項目              |ライブラリ|
-|------------------|----------|
-|pythonバージョン  |なし      |
-|仮想環境          |venv      |
-|パッケージ        |pip       |
+|管理項目          |ライブラリ|参考           |
+|------------------|----------|---------------|
+|pythonバージョン  |なし      |               |
+|仮想環境          |venv      |[docs][venv]   |
+|パッケージ        |pip       |[docs][pip]    |
 
-本手順は、下記に示すような一般的な仮想環境構築の手順で複数の仮想環境を同時に構築するための手順となります。
+[venv]: https://docs.python.org/ja/3/library/venv.html
+[pip]: https://pip.pypa.io/en/stable/
+
+一般的な仮想環境の構築手順を下記に示します。
+
+難しくない手順ですが、複数の環境を構築するためにこれらの操作を繰り返し行うのは面倒です。
+
+本手順は、これらの操作を簡略化するためのスクリプトの使い方を示します。
 
 ``` bash
 # 仮想環境の構築
@@ -28,24 +35,21 @@ pip install -r requirements.txt
 
 ## はじめに
 
-はじめに、本手順における前提を示します。
+### 説明のための設定
 
 * WSLのUbuntu上に仮想環境を構築します。
 
-* 以下の仮想環境を構築します。
+* [tensorflow](https://www.tensorflow.org/)の仮想環境を構築します。
 
-    * tensorflow
-    * pytorch
+* 使用するデータは、`/mnt/c/Users/<user-name>/work/data/venv_pip/`にあることとします。
 
-* 使用するデータは、Windows側の`/mnt/c/Users/<user-name>/work/data/venv_pip/`にあることとします。
+### 仮想環境構築後のディレクトリ構造のイメージ
 
-* 本手順で仮想環境を構築した場合のディレクトリ構造の例
-
-    ``` none
-    ~
-    └── .env           # 仮想環境を構築するディレクトリ
-        └── <env-name> # 仮想環境
-    ```
+``` none
+~
+└── .env           # 仮想環境を構築するディレクトリ
+    └── <env-name> # 仮想環境
+```
 
 ## 1. データ準備
 
@@ -56,69 +60,20 @@ data/venv_pip/
 ├── activate.sh           # 仮想環境を有効化するスクリプト
 └── .env                  # 仮想環境を構築するディレクトリ
     ├── build_venv.sh     # 単一の仮想環境を構築するスクリプト
-    ├── install_python.sh # pythonをインストールするスクリプト
-    └── setup.sh          # 複数の仮想環境を構築するスクリプト
+    └── install_python.sh # pythonをインストールするスクリプト
 ```
 
-### 1.1. pythonパッケージを記述したファイルを作成する
+### pythonパッケージを記述したファイルを作成する
 
-ファイル名は`<env-name>.txt`として、`.env`ディレクトリに置いてください。
-
-ここでは、`tf-gpu.txt`と`to-gpu.txt`に以下を記述するとします。
+ここでは、以下を`tf-gpu.txt`に記述し、`.env/`ディレクトリに置くこととします。
 
 ``` none
 matplotlib
 pandas==2.2.3 # バージョンを指定したい場合
 scikit-learn
 scikit-image
+tensorflow[and-cuda]
 ```
-
-`.env`ディレクトリは、以下のようになっていればOKです。
-
-``` none
-.env
-├── build_venv.sh
-├── install_python.sh
-├── setup.sh
-├── tf-gpu.txt   # tensorflowのpythonパッケージ一覧のファイル
-└── to-gpu.txt   #    pytorchのpythonパッケージ一覧のファイル
-```
-
-### 1.2. [setup.sh](../data/venv_pip/.env/setup.sh)を編集する
-
-* 下記のように`A_envnames`に仮想環境名を設定します。
-
-    ``` bash
-    # 仮想環境名の配列
-    # コメントアウトすれば、仮想環境を作らない。
-    A_envnames=(
-        # tf-cpu  # tensorflow (cpu)
-        tf-gpu  # tensorflow (gpu)
-        to-gpu  # pytorch (gpu)
-    )
-    ```
-
-* 仮想環境ごとに他に処理を追加したい場合、case文の箇所に追加します。
-
-    ``` bash
-    for A_name in ${A_envnames[@]}; do
-        cd $A_dpath
-        # 単一の仮想環境を構築するスクリプトを実行する。
-        . build_venv.sh $A_dpath $A_name $A_dpath/$A_name.txt
-
-        # 追加処理を行う。
-        case $A_name in # 仮想環境名を設定する。
-            tf-cpu)
-                ;;
-            tf-gpu)
-                pip install tensorflow[and-cuda]
-                ;;
-            to-gpu)
-                pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-                ;;
-        esac
-    done
-    ```
 
 ## 2. 仮想環境の構築
 
@@ -130,6 +85,8 @@ cp -r /mnt/c/Users/<user-name>/work/data/venv_pip/. ~/
 
 ### 2.2. pythonをインストールする
 
+実行後、必要に応じて`sudo`のパスワードを入力します。
+
 ``` bash
 cd ~/.env/
 source install_python.sh
@@ -138,25 +95,28 @@ source install_python.sh
 [`install_python.sh`](../data/venv_pip/.env/install_python.sh)は、下記を実行するスクリプトです。
 
 1. Ubuntuパッケージの更新
-2. pythonのインストール
+1. `apt-get`でpythonのインストール
 
-### 2.3. `setup.sh`を実行する
-
-実行後、必要に応じて`sudo`のパスワードを入力します。
+### 2.3. 仮想環境を構築する
 
 ``` bash
-source setup.sh
+source build_venv.sh ~/.env tf-gpu ~/.env/tf-gpu.txt
 ```
 
-[`setup.sh`](../data/venv_pip/.env/setup.sh)は、下記を実行するスクリプトです。
+`build_venv.sh`の使い方を下記に示します。
 
-1. `build_venv.sh`の実行
-2. 仮想環境ごとの追加処理の実行
+``` bash
+source build_venv.sh $1 $2 $3
+# 引数の説明:
+# $1: 必須 - 仮想環境を構築する親ディレクトリパス
+# $2: 必須 - 仮想環境名
+# $3: 必須 - pythonパッケージの一覧のファイルパス
+```
 
 [`build_venv.sh`](../data/venv_pip/.env/build_venv.sh)は、下記を実行するスクリプトです。
 
 1. `venv`で仮想環境の構築
-2. `pip`でpythonパッケージのインストール
+1. `pip`でpythonパッケージのインストール
 
 **仮想環境の構築完了です。**
 
@@ -168,12 +128,6 @@ source setup.sh
 > ```
 >
 > (直接、`source <env-dir-path>/bin/activate`を実行してもOKです)
->
-> **単一の仮想環境の構築**
->
-> ``` bash
-> souce ~/.env/build_venv.sh ~/.env/ <env-name> ~/.env/<env-name>.txt
-> ```
 >
 > **pythonパッケージのバージョン管理**
 >
