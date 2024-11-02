@@ -202,14 +202,6 @@ source make_project.sh $1 $2 $3 $4 $5
 **仮想環境の構築完了です。**
 
 > [!TIP]
-> **仮想環境の有効化**
->
-> ``` bash
-> source ~/activate.sh <env-name>
-> ```
->
-> (直接、`source <env-dir-path>/bin/activate`を実行してもOKです)
->
 > **`pyenv`でローカルのpythonバージョンの設定**
 >
 > 下記コマンドを実行すると、pythonバージョンが記載された`.python-version`が作成されます。
