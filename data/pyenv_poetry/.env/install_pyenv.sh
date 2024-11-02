@@ -86,4 +86,4 @@ cd ~/.env/
 
 unset_var
 
-echo done.
+echo 'done.'

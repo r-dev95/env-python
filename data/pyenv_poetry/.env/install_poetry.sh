@@ -66,4 +66,4 @@ cd $dpath
 
 unset_var
 
-echo done.
+echo 'done.'
