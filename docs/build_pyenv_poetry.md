@@ -103,7 +103,7 @@ poetry add --group <group-name> <package-name> # <group-name>グループ
 ``` none
 data/pyenv_poetry/
 └── .env                  # 仮想環境を構築するディレクトリ
-    ├── poetry_add.sh     # 単一の仮想環境を構築するスクリプト
+    ├── make_project.sh   # 単一のプロジェクト(仮想環境)を作成するスクリプト
     ├── install_pyenv.sh  #  pyenvをインストールするスクリプト
     └── install_poetry.sh # poetryをインストールするスクリプト
 ```
