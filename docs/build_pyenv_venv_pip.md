@@ -211,4 +211,4 @@ pyenv global <python-version>
 >
 > `system`は`apt-get`等でインストールしたpyhtonのバージョンを指します。
 >
-> また`pyenv`でインストールしたpythonは、`.pyenv/versions/`にあります。
+> また`pyenv`でインストールしたpythonは、`~/.pyenv/versions/`にあります。

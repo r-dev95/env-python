@@ -240,7 +240,7 @@ source make_project.sh $1 $2 $3 $4 $5
 >
 > `system`は`apt-get`等でインストールしたpyhtonのバージョンを指します。
 >
-> また`pyenv`でインストールしたpythonは、`.pyenv/versions/`にあります。
+> また`pyenv`でインストールしたpythonは、`~/.pyenv/versions/`にあります。
 >
 > **`poetry`の仮想環境でのコマンド実行**
 >
