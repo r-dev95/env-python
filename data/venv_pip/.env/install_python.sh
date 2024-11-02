@@ -36,6 +36,4 @@ echo '# Set python' >> ~/.bash_aliases
 echo alias python=\'python3\' >> ~/.bash_aliases
 . ~/.bash_aliases
 
-echo ------------------------------------------------------------
 echo done.
-echo ------------------------------------------------------------
