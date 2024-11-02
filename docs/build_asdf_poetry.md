@@ -227,7 +227,7 @@ source make_project.sh $1 $2 $3 $4 $5
 >
 > ``` bash
 > cd <project-dir-path>
-> asdf local <python-version>
+> asdf local python <python-version>
 > ```
 >
 > これにより、プロジェクトのディレクトリ内でpythonを実行した際、`.tool-versions`のバージョンで実行できます。
