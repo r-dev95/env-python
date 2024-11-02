@@ -27,24 +27,23 @@
 # 変数と関数をunsetする関数。
 function unset_var() {
     unset fpath
-    unset name
+    unset val
     unset unset_var
 }
 
 cd ~/
 
 # Ubuntuのパッケージを更新する。
-echo ------------------------------
+echo ------------------------------------------------------------
 echo Ubuntuパッケージを更新します。
-echo ------------------------------
+echo ------------------------------------------------------------
 sudo apt-get update
 sudo apt-get upgrade -y
 
 # pythonのビルド依存関係パッケージをインストールする。
-echo ------------------------------
-echo pythonのビルド依存関係の
-echo パッケージをインストールします。
-echo ------------------------------
+echo ------------------------------------------------------------
+echo pythonのビルド依存関係のパッケージをインストールします。
+echo ------------------------------------------------------------
 sudo apt-get install -y \
     build-essential \
     libssl-dev \
@@ -63,20 +62,24 @@ sudo apt-get install -y \
     liblzma-dev
 
 # pyenvをインストールする。
-echo ------------------------------
+echo ------------------------------------------------------------
 echo pyenvをインストールします。
-echo ------------------------------
+echo ------------------------------------------------------------
 curl https://pyenv.run | bash
+
 # 環境変数の設定
+echo ------------------------------------------------------------
+echo pyenvの環境変数を設定します。
+echo ------------------------------------------------------------
 # fpath=(~/.bashrc ~/.profile)
 fpath=(~/.bashrc)
-for name in ${fpath[@]}; do
-    echo >> $name
-    echo '# Set PYENV_ROOT' >> $name
-    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> $name
-    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> $name
-    echo 'eval "$(pyenv init -)"' >> $name
-    . $name
+for val in ${fpath[@]}; do
+    echo >> $val
+    echo '# Set PYENV_ROOT' >> $val
+    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> $val
+    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> $val
+    echo 'eval "$(pyenv init -)"' >> $val
+    . $val
 done
 
 cd ~/.env/
