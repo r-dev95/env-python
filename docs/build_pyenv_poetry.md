@@ -199,7 +199,18 @@ source make_project.sh $1 $2 $3 $4 $5
 1. `poetry`でプロジェクトの作成
 1. `poetry`でpythonパッケージのインストール(自動で仮想環境も構築される)
 
-> [!IMPORTANT]
+**仮想環境の構築完了です。**
+
+> [!TIP]
+> **仮想環境の有効化**
+>
+> ``` bash
+> source ~/activate.sh <env-name>
+> ```
+>
+> (直接、`source <env-dir-path>/bin/activate`を実行してもOKです)
+>
+> **`pyenv`でローカルのpythonバージョンの設定**
 >
 > 下記コマンドを実行すると、pythonバージョンが記載された`.python-version`が作成されます。
 >
@@ -212,17 +223,6 @@ source make_project.sh $1 $2 $3 $4 $5
 >
 > pythonを実行した際、カレントディレクトリに`.python-version`がない場合、上の階層を順に探索し、pythonバージョンを設定します。
 > 見つからない場合は、`pyenv global`の設定が採用されます。
-
-**仮想環境の構築完了です。**
-
-> [!TIP]
-> **仮想環境の有効化**
->
-> ``` bash
-> source ~/activate.sh <env-name>
-> ```
->
-> (直接、`source <env-dir-path>/bin/activate`を実行してもOKです)
 >
 > **`pyenv`でインストールされているpythonの表示**
 >
