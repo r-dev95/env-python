@@ -4,12 +4,12 @@
 
 # 本リポジトリの概要
 
-![github](https://img.shields.io/github/license/r-dev95/wsl_ubuntu_python)
+[![license](https://img.shields.io/github/license/r-dev95/wsl_ubuntu_python)](./LICENSE)
 
-![os](https://custom-icon-badges.herokuapp.com/badge/Windows-d3d3d3.svg?logo=windows)
-![os](https://custom-icon-badges.herokuapp.com/badge/Ubuntu-d3d3d3.svg?logo=ubuntu)
-![code](https://custom-icon-badges.herokuapp.com/badge/python-d3d3d3.svg?logo=python)
-![code](https://custom-icon-badges.herokuapp.com/badge/poetry-d3d3d3.svg?logo=poetry)
+![Windows](https://custom-icon-badges.herokuapp.com/badge/Windows-blue.svg?labelColor=d3d3d3&logo=windows)
+![Ubuntu](https://custom-icon-badges.herokuapp.com/badge/Ubuntu-dd4814.svg?labelColor=d3d3d3&logo=ubuntu)
+[![Python](https://img.shields.io/badge/Python-3776AB.svg?labelColor=d3d3d3&logo=python)](https://github.com/python)
+[![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
 
 本リポジトリは、pythonの開発環境を構築するためのリポジトリです。
 
@@ -116,4 +116,4 @@ WSLのUbuntu上に構築する体で説明しているため、WSLのインス�
 
 ## ライセンス
 
-本ソフトウェアは、[MITライセンス](LICENSE)の元提供されています。
+本リポジトリは、[MITライセンス](LICENSE)に基づいてライセンスされています。
