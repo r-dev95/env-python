@@ -4,7 +4,7 @@
 
 # 本リポジトリの概要
 
-[![license](https://img.shields.io/github/license/r-dev95/wsl_ubuntu_python)](./LICENSE)
+[![license](https://img.shields.io/github/license/r-dev95/env-python)](./LICENSE)
 
 ![Windows](https://custom-icon-badges.herokuapp.com/badge/Windows-blue.svg?labelColor=d3d3d3&logo=windows)
 ![Ubuntu](https://custom-icon-badges.herokuapp.com/badge/Ubuntu-dd4814.svg?labelColor=d3d3d3&logo=ubuntu)
