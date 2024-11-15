@@ -2,7 +2,7 @@
     pythonの仮想環境を構築する手順を示す。
  -->
 
-# pythonの仮想環境を構築する手順
+# 開発環境の構築手順
 
 下表のツールを使用したpythonの仮想環境の構築する手順を示します。
 
@@ -100,7 +100,7 @@ poetry add --group <group-name> <package-name> # <group-name>グループ
 │   └── share
 │       └── pypoetry # poetryのインストールディレクトリ
 ├── .asdf              # asdfのインストールディレクトリ
-└── .env               # 仮想環境を構築するディレクトリ
+└── .env               # 仮想環境の親ディレクトリ
     └── virtualenvs    # poetryの仮想環境ディレクトリ
         └── <env-name> # 仮想環境
 ```
@@ -111,7 +111,7 @@ poetry add --group <group-name> <package-name> # <group-name>グループ
 
 ``` none
 data/asdf_poetry/
-└── .env                  # 仮想環境を構築するディレクトリ
+└── .env                  # 仮想環境の親ディレクトリ
     ├── make_project.sh   # 単一のプロジェクト(仮想環境)を作成するスクリプト
     ├── install_asdf.sh   #   asdfをインストールするスクリプト
     └── install_poetry.sh # poetryをインストールするスクリプト
@@ -121,11 +121,9 @@ data/asdf_poetry/
 
 ここでは、以下を`tf-gpu.txt`に記述し、`.env/`ディレクトリに置くこととします。
 
-`pip`インストールの際の`requirements.txt`とは異なり、バージョンは指定しません。
-
 ``` none
 matplotlib
-pandas
+pandas==2.2.3 # バージョンを指定したい場合
 scikit-learn
 scikit-image
 tensorflow[and-cuda]
@@ -184,6 +182,8 @@ source install_poetry.sh
 
 ### 2.4. プロジェクトと仮想環境を構築する
 
+複数の仮想環境をまとめて構築したい場合、[複数の仮想環境の構築](#複数の仮想環境の構築)を参照してください。
+
 ``` bash
 cd ~/.env
 source make_project.sh ~/work tf-gpu "~/.env/tf-gpu.txt ~/.env/docs.txt" "main docs" <python-version>
@@ -194,7 +194,7 @@ source make_project.sh ~/work tf-gpu "~/.env/tf-gpu.txt ~/.env/docs.txt" "main d
 ``` bash
 source make_project.sh $1 $2 $3 $4 $5
 # 引数の説明:
-# $1: 必須 - プロジェクトディレクトリの親パス
+# $1: 必須 - プロジェクトの親ディレクトリパス
 # $2: 必須 - プロジェクト名
 # $3: 必須 - pythonパッケージ一覧のファイルパス
 #            複数指定する場合、スペースで区切り全体をクォーテーションで囲む。
@@ -212,73 +212,164 @@ source make_project.sh $1 $2 $3 $4 $5
 
 **仮想環境の構築完了です。**
 
-> [!TIP]
-> **`asdf`でローカルのpythonバージョンの設定**
->
-> 下記コマンドを実行すると、pythonバージョンが記載された`.tool-versions`が作成されます。
->
-> ``` bash
-> cd <project-dir-path>
-> asdf local python <python-version>
-> ```
->
-> これにより、プロジェクトのディレクトリ内でpythonを実行した際、`.tool-versions`のバージョンで実行できます。
->
-> pythonを実行した際、カレントディレクトリに`.tool-versions`がない場合、上の階層を順に探索し、pythonバージョンを設定します。
-> 見つからない場合は、`asdf global`の設定が採用されます。
->
-> **`asdf`でインストールされているpythonの表示**
->
-> ``` bash
-> asdf list python
-> ```
->
-> ``` bash
-> # 出力の例
->   3.10.15
-> * 3.12.3
-> ```
->
-> インストール済みのpythonバージョンの一覧が表示されます。
->
-> また`asdf`でインストールしたpythonは、`~/.asdf/installs/python`にあります。
->
-> **`poetry`の仮想環境でのコマンド実行**
->
-> 下記コマンドを実行すると、プロジェクトに対応する仮想環境に入り、pythonが実行され、実行が終了すると仮想環境から出ます。
->
-> ``` bash
-> poetry run python <script-name>
-> ```
->
-> 下記コマンドを実行すると、プロジェクトに対応する仮想環境に入ります。
->
-> ``` bash
-> poetry shell
-> ```
->
-> **`poetry`仮想環境のパッケージの表示**
->
-> プロジェクトディレクトリ内で下記コマンドを実行すると、プロジェクトに対応する仮想環境のパッケージを表示できます。
->
-> ``` bash
-> poetry show
-> ```
->
-> **有効な`poetry`仮想環境の表示**
->
-> プロジェクトディレクトリ内で下記コマンドを実行すると、プロジェクトに対応する仮想環境を表示できます。
->
-> ``` bash
-> poetry env list
-> ```
->
-> **使用するpythonバージョンの設定**
->
-> プロジェクトディレクトリに作成された`pyproject.toml`の`python = "..."`の部分を編集し、下記コマンドを実行します。
->
-> ``` bash
-> poetry env use <python-version>
-> ```
->
-> `pyproject.toml`の`python = "..."`に設定するバージョンは、あくまで条件であり、これを満たす限り、使用するバージョンは、`poetry env use`コマンドで設定できます。
+## 複数の仮想環境の構築
+
+インストールするパッケージを記述した`<env-name>.txt`が、`.env/`ディレクトリに置かれている前提で説明します。
+
+### 1. `setup.sh`を編集する
+
+#### 1.1. `A_python_ver`にpythonバージョンを設定する
+
+``` bash
+# python version
+A_python_ver=3.12.3
+```
+
+#### 1.2. `A_dpath`に仮想環境の親ディレクトリを設定する
+
+[`poetry`をインストールする](#23-poetryをインストールする)で設定した`poetry`のキャッシュディレクトリを設定する。
+
+``` bash
+# parent directory path to build the virtual environment
+A_dpath=~/.env
+```
+
+#### 1.3. `A_dpath_pj`にプロジェクトの親ディレクトリを設定する
+
+``` bash
+# parent directory path to build the project
+A_dpath_pj=~/work
+```
+
+#### 1.4. `A_envnames`に仮想環境名を設定する
+
+``` bash
+# An array of virtual environment names.
+# If you comment it out, the virtual environment will not be created.
+A_envnames=(
+    tf-gpu  # tensorflow (gpu)
+    to-gpu  # pytorch (gpu)
+    # pyside  # pyside
+    # flet    # flet
+    # django  # django
+)
+```
+
+#### 1.5. `make_project.sh`の引数を設定する
+
+`make_project.sh`については、[プロジェクトと仮想環境を構築する](#24-プロジェクトと仮想環境を構築する)を参照してください。
+
+``` bash
+# Build a virtual environment.
+for A_name in ${A_envnames[@]}; do
+    cd $A_dpath
+
+    # Run a script to create a single virtual environment.
+    . make_project.sh $A_dpath_pj $A_name "$A_dpath/$A_name.txt $A_dpath/docs.txt" "main docs" $A_python_ver
+```
+
+#### 1.6. 仮想環境ごとの追加処理を設定する
+
+仮想環境ごとに追加で処理が必要な場合、`case`文の中に設定します。
+
+``` bash
+# Build a virtual environment.
+for A_name in ${A_envnames[@]}; do
+
+    ...
+
+    # Run additional processing.
+    case $A_name in # Set a virtual environment.
+        tf-gpu)
+            ;;
+        to-gpu)
+            poetry source add --priority=explicit pytorch-cu118 https://download.pytorch.org/whl/cu118
+            poetry add torch torchvision torchaudio --source pytorch-cu118
+            ;;
+
+    ...
+```
+
+### 2. `setup.sh`を実行する
+
+``` bash
+source setup.sh
+```
+
+[`setup.sh`](../data/asdf_poetry/.env/setup.sh)は、下記を実行するスクリプトです。
+
+1. `make_project.sh`の実行
+1. 追加処理の実行 (設定した場合)
+
+**複数の仮想環境の構築完了です。**
+
+## `asdf`について
+
+### インストール済みpythonの表示
+
+``` bash
+asdf list python
+```
+
+インストール済みのpythonバージョンの一覧が表示されます。
+また`asdf`でインストールしたpythonは、`~/.asdf/installs/python`にあります。
+
+``` bash
+  3.10.15
+* 3.12.3
+```
+
+### ローカルpythonバージョンの設定
+
+下記コマンドを実行すると、pythonバージョンが記載された`.tool-versions`が作成されます。
+
+``` bash
+cd <project-dir-path>
+asdf local python <python-version>
+```
+
+これにより、プロジェクトのディレクトリ内でpythonを実行した際、`.tool-versions`のバージョンで実行できます。
+pythonを実行した際、カレントディレクトリに`.tool-versions`がない場合、上の階層を順に探索し、pythonバージョンを設定します。
+見つからない場合は、`asdf global`の設定が採用されます。
+
+## `poetry`について
+
+### 仮想環境でのコマンド実行
+
+下記コマンドを実行すると、プロジェクトに対応する仮想環境に入り、pythonが実行され、実行が終了すると仮想環境から出ます。
+
+``` bash
+poetry run python <script-name>
+```
+
+下記コマンドを実行すると、プロジェクトに対応する仮想環境に入ります。
+
+``` bash
+poetry shell
+```
+
+### 仮想環境のパッケージの表示
+
+プロジェクトディレクトリ内で下記コマンドを実行すると、プロジェクトに対応する仮想環境のパッケージを表示できます。
+
+``` bash
+poetry show
+```
+
+### 有効な仮想環境の表示
+
+プロジェクトディレクトリ内で下記コマンドを実行すると、プロジェクトに対応する仮想環境を表示できます。
+
+``` bash
+poetry env list
+```
+
+### 使用するpythonバージョンの設定
+
+プロジェクトディレクトリに作成された`pyproject.toml`の`python = "..."`の部分を編集し、下記コマンドを実行します。
+
+``` bash
+poetry env use <python-version>
+```
+
+`pyproject.toml`の`python = "..."`に設定するバージョンは、あくまで条件であり、これを満たす限り、使用するバージョンは、`poetry env use`コマンドで設定できます。

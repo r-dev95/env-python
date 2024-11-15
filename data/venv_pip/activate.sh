@@ -1,13 +1,13 @@
-# -------------------------------------------------------------------
-# pythonの仮想環境を有効化するスクリプト
+# -----------------------------------------------------------------------------
+# This is a script to activate a python virtual environment.
 #
-# コマンド:
+# Command:
 #   source activate.sh $1
-#       $1: 仮想環境名
-# -------------------------------------------------------------------
+#       $1: Required - virtual environment name
+# -----------------------------------------------------------------------------
 #!/bin/bash
 
-# 変数と関数をunsetする関数。
+# Unset variables and functions.
 function unset_var() {
     unset dpath
     unset envname
@@ -16,36 +16,36 @@ function unset_var() {
     unset unset_var
 }
 
-# 仮想環境ディレクトリの親パス
+# parent directory of the virtual environment
 dpath=~/.env
 
-# 引数
+# command line arguments
 envname=$1
 
-# 構築済みの仮想環境名を取得する。
+# Get the name of the builded virtual environment.
 for val in $(find $dpath -name activate); do
     val=(${val//// })
     envnames+=(${val[-3]})
 done
 
 if [ ! -d $dpath/$envname ]; then
-    echo '------------------------------------------------------------'
-    echo '[有効化に失敗]: '$dpath/$envname
-    echo '仮想環境:'
+    echo '----------------------------------------------------------------------'
+    echo $dpath/$envname' - Activation failed.'
+    echo 'virtual environment:'
         for val in ${envnames[@]}; do
-            echo '    '${val}
+            echo '  '${val}
         done
-    echo '------------------------------------------------------------'
+    echo '----------------------------------------------------------------------'
     return 1
 fi
 
-# 仮想環境を有効化する。
+# Activate the virtual environment.
 for val in ${envnames[@]}; do
     if [ $envname = $val ]; then
         . $dpath/$envname/bin/activate
-        echo '------------------------------------------------------------'
-        echo '[有効化に成功]: '$dpath/$envname
-        echo '------------------------------------------------------------'
+        echo '----------------------------------------------------------------------'
+        echo $dpath/$envname' - Activation successful.'
+        echo '----------------------------------------------------------------------'
         break
     fi
 done

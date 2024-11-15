@@ -1,3 +1,4 @@
-setup.sh
 tmp/
 *.vhdx
+
+uv/

@@ -1,18 +1,18 @@
-# -------------------------------------------------------------------
-# pythonの仮想環境を構築するスクリプト
+# -----------------------------------------------------------------------------
+# This is a script to build a python virtual environment.
 #
-# 1. venvで仮想環境の構築
-# 2. pipでpythonパッケージのインストール
+# 1. Build a virtual environment with venv.
+# 2. Install a pyhon packages with pip.
 #
-# コマンド:
+# Command:
 #   source build_venv.sh $1 $2 $3
-#       $1: 必須 - 構築する仮想環境ディレクトリの親パス
-#       $2: 必須 - 仮想環境名
-#       $3: 必須 - pythonパッケージ一覧のファイルパス
-# -------------------------------------------------------------------
+#       $1: Required - parent directory of the virtual environment
+#       $2: Required - virtual environment name
+#       $3: Required - file path containing python package
+# -----------------------------------------------------------------------------
 #!/bin/bash
 
-# 変数と関数をunsetする関数。
+# Unset variables and functions.
 function unset_var() {
     unset dpath
     unset name
@@ -20,49 +20,50 @@ function unset_var() {
     unset unset_var
 }
 
-# 引数
+# command line arguments
 dpath=$1
 name=$2
 fpath=$3
 
-# 引数を確認する。
+# Check an arguments.
 if [ ! -d $dpath ]; then
-    echo '------------------------------------------------------------'
-    echo 'ディレクトリが存在しません。'
-    echo '------------------------------------------------------------'
-    echo '$1: 必須 - 構築する仮想環境ディレクトリの親パス: '$dpath
-    echo '------------------------------------------------------------'
+    echo '----------------------------------------------------------------------'
+    echo 'Directory does not exist.'
+    echo '----------------------------------------------------------------------'
+    echo '$1: Required - parent directory of the virtual environment: '$dpath
+    echo '----------------------------------------------------------------------'
     return 1
 fi
 if [ -d $name ]; then
-    echo '------------------------------------------------------------'
-    echo '仮想環境は既に存在します。'
-    echo '------------------------------------------------------------'
-    echo '$2: 必須 - 仮想環境名: '$name
-    echo '------------------------------------------------------------'
+    echo '----------------------------------------------------------------------'
+    echo 'The virtual environment already exists.'
+    echo '----------------------------------------------------------------------'
+    echo '$2: Required - virtual environment name: '$name
+    echo '----------------------------------------------------------------------'
     return 1
 fi
 if [ ! -f $fpath ]; then
-    echo '------------------------------------------------------------'
-    echo 'ファイルが存在しません。'
-    echo '------------------------------------------------------------'
-    echo '$3: 必須 - pythonパッケージ一覧のファイルパス: '$fpath
-    echo '------------------------------------------------------------'
+    echo '----------------------------------------------------------------------'
+    echo 'File does not exist.'
+    echo '----------------------------------------------------------------------'
+    echo '$3: Required - file path containing python package: '$fpath
+    echo '----------------------------------------------------------------------'
     return 1
 fi
 
-echo '------------------------------------------------------------'
-echo '下記設定で仮想環境を構築します。'
-echo '------------------------------------------------------------'
-echo '構築する仮想環境ディレクトリの親パス: '$dpath
-echo '仮想環境名: '$name
-echo 'pythonパッケージ一覧のファイルパス: '$fpath
-echo '------------------------------------------------------------'
+echo '----------------------------------------------------------------------'
+echo 'Build a virtual environment with the following settings:'
+echo '----------------------------------------------------------------------'
+echo 'parent directory of the virtual environment: '$dpath
+echo 'virtual environment name: '$name
+echo 'file path containing python package: '$fpath
+echo '----------------------------------------------------------------------'
 
-# 仮想環境を構築する。
+# Build a virtual environment with venv.
 python -m venv $name
 
-# pythonパッケージをインストールする。
+# Install a pyhon packages with pip.
 . $dpath/$name/bin/activate
 pip install -r $fpath
 
+unset_var

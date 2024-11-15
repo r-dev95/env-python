@@ -1,65 +1,66 @@
-# -------------------------------------------------------------------
-# Ubuntu上にpoetryをインストールするスクリプト
+# -----------------------------------------------------------------------------
+# This is a script to install a poetry on Ubuntu.
 #
-# 1. Ubuntuパッケージの更新
-# 2. poetryのインストール
-#       ~/.local/share/pypoetryにインストールされる。
-# 3. poetryの環境変数の設定
-#       poetryの公式手順では、下記のどちらかのパスを設定するように記載されている。
-#           - $HOME/.local/bin (下記のシンボリックリンクが存在する)
-#           - ~/.local/share/pypoetry/venv/bin/poetry
-#       Ubuntuでは、~/.profileで$HOME/.local/binを設定している。
-#       そのため、~/.profileを呼び出すだけとする。
-# 4. poetryのタブ補完の有効化
-# 5. poetryのキャッシュディレクトリの変更(仮想環境の構築ディレクトリも変わる)
+# 1. Update a ubuntu packages.
+# 2. Install poetry.
+#    install path: ~/.local/share/pypoetry/
+# 3. Set environment variables in poetry.
+#    The official poetry procedure describes to set one of the following paths.
+#       - $HOME/.local/bin (the following symbolic link exists)
+#       - ~/.local/share/pypoetry/venv/bin/poetry
+#    In Ubuntu, $HOME/.local/bin is set in ~/.profile.
+#    Therefore, we will just call ~/.profile.
+# 4. Enable tab completion for poetry.
+# 5. Change the poetry cache directory.
+#    (The virtual environment build directory will also change.)
 #
-# コマンド:
+# Command:
 #   source install_poetry.sh
-#       sudoのパスワードを入力する。
-# -------------------------------------------------------------------
+#   - If necessary, enter your sudo password.
+# -----------------------------------------------------------------------------
 #!/bin/bash
 
-# 変数と関数をunsetする関数。
+# Unset variables and functions.
 function unset_var() {
     unset dpath
     unset unset_var
 }
 
-# poetryのキャッシュディレクトリパス
+# poetry cache directory
 dpath=~/.env
 
 cd ~/
 
-# Ubuntuのパッケージを更新する。
-echo ------------------------------------------------------------
-echo Ubuntuパッケージを更新します。
-echo ------------------------------------------------------------
+# Update a ubuntu packages.
+echo '----------------------------------------------------------------------'
+echo 'Update a ubuntu packages.'
+echo '----------------------------------------------------------------------'
 sudo apt-get update
 sudo apt-get upgrade -y
 
-# poetryをインストールする。
-echo ------------------------------------------------------------
-echo poetryをインストールします。
-echo ------------------------------------------------------------
+# Install poetry.
+echo '----------------------------------------------------------------------'
+echo 'Install poetry.'
+echo '----------------------------------------------------------------------'
 curl -sSL https://install.python-poetry.org | python3 -
 
-# 環境変数を設定する
-echo ------------------------------------------------------------
-echo poetryの環境変数を設定します。
-echo ------------------------------------------------------------
+# Set environment variables in poetry.
+echo '----------------------------------------------------------------------'
+echo 'Set environment variables in poetry.'
+echo '----------------------------------------------------------------------'
 . ~/.profile
 
-# タブ補完を有効化する
-echo ------------------------------------------------------------
-echo poetryのタブ補完を有効化します。
-echo ------------------------------------------------------------
+# Enable tab completion for poetry.
+echo '----------------------------------------------------------------------'
+echo 'Enable tab completion for poetry.'
+echo '----------------------------------------------------------------------'
 poetry completions bash >> ~/.bash_completion
 . ~/.bash_completion
 
-# キャッシュディレクトリを変更する
-echo ------------------------------------------------------------
-echo poetryのキャッシュディレクトリを変更します。
-echo ------------------------------------------------------------
+# Change the poetry cache directory.
+echo '----------------------------------------------------------------------'
+echo 'Change the poetry cache directory.'
+echo '----------------------------------------------------------------------'
 poetry config cache-dir $dpath
 
 cd $dpath

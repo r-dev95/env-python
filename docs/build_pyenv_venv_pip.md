@@ -2,7 +2,7 @@
     pythonの仮想環境を構築する手順を示す。
  -->
 
-# pythonの仮想環境を構築する手順
+# 開発環境の構築手順
 
 下表のツールを使用したpythonの仮想環境の構築する手順を示します。
 
@@ -72,7 +72,7 @@ pip install -r requirements.txt
 ``` none
 ~/
 ├── .pyenv         # pyenvのインストールディレクトリ
-└── .env           # 仮想環境を構築するディレクトリ
+└── .env           # 仮想環境の親ディレクトリ
     └── <env-name> # 仮想環境
 ```
 
@@ -83,7 +83,7 @@ pip install -r requirements.txt
 ``` none
 data/pyenv_venv_pip/
 ├── activate.sh          # 仮想環境を有効化するスクリプト
-└── .env                 # 仮想環境を構築するディレクトリ
+└── .env                 # 仮想環境の親ディレクトリ
     ├── build_venv.sh    # 単一の仮想環境を構築するスクリプト
     └── install_pyenv.sh # pyenvをインストールするスクリプト
 ```
@@ -126,6 +126,8 @@ source install_pyenv.sh
 
 ### 2.3. 仮想環境を構築する
 
+複数の仮想環境をまとめて構築したい場合、[複数の仮想環境の構築](#複数の仮想環境の構築)を参照してください。
+
 ``` bash
 source build_venv.sh ~/.env tf-gpu ~/.env/tf-gpu.txt 3.12.3
 ```
@@ -135,9 +137,9 @@ source build_venv.sh ~/.env tf-gpu ~/.env/tf-gpu.txt 3.12.3
 ``` bash
 source build_venv.sh $1 $2 $3 $4
 # 引数の説明:
-# $1: 必須 - 構築する仮想環境ディレクトリの親パス
+# $1: 必須 - 仮想環境の親ディレクトリパス
 # $2: 必須 - 仮想環境名
-# $3: 必須 - pythonパッケージの一覧のファイルパス
+# $3: 必須 - pythonパッケージ一覧のファイルパス
 # $4: 必須 - pythonバージョン
 ```
 
@@ -171,43 +173,137 @@ pyenv global <python-version>
 
 **仮想環境の構築完了です。**
 
-> [!TIP]
-> **仮想環境の有効化**
->
-> ``` bash
-> source ~/activate.sh <env-name>
-> ```
->
-> (直接、`source <env-dir-path>/bin/activate`を実行してもOKです)
->
-> **pythonパッケージのバージョン管理**
->
-> 仮想環境のpythonパッケージのバージョンを保存するには、下記コマンドを実行する必要があります。
->
-> ``` bash
-> pip freeze > <file-name>.txt
-> ```
->
-> また、ある仮想環境のpythonパッケージをインストールするには、下記コマンドを実行します。
->
-> ``` bash
-> pip install -r <file-name>.txt
-> ```
->
-> **`pyenv`でインストールされているpythonの表示**
->
-> ``` bash
-> pyenv versions
-> ```
->
-> ``` bash
-> # 出力の例
->   system
-> * 3.12.3 (set by <project_dir>/.python-version)
-> ```
->
-> インストール済みのpythonバージョンの一覧と現在のディレクトリの設定が表示されます。
->
-> `system`は`apt-get`等でインストールしたpyhtonのバージョンを指します。
->
-> また`pyenv`でインストールしたpythonは、`~/.pyenv/versions/`にあります。
+## 複数の仮想環境の構築
+
+インストールするパッケージを記述した`<env-name>.txt`が、`.env/`ディレクトリに置かれている前提で説明します。
+
+### 1. `setup.sh`を編集する
+
+#### 1.1. `A_python_ver`にインストールするpythonバージョンを設定する
+
+``` bash
+# python version
+A_python_ver=3.12.3
+```
+
+#### 1.2. `A_envnames`に仮想環境名を設定する
+
+``` bash
+# An array of virtual environment names.
+# If you comment it out, the virtual environment will not be created.
+A_envnames=(
+    tf-gpu  # tensorflow (gpu)
+    to-gpu  # pytorch (gpu)
+    # pyside  # pyside
+    # flet    # flet
+    # django  # django
+)
+```
+
+#### 1.3. 共通パッケージのインストールを設定する
+
+ドキュメントやテスト用のパッケージをプロジェクト間で共通のものを使用する場合、`build_venv.sh`より後に設定します。(`pip install`の部分)
+
+`<env-name>.txt`にすべてのパッケージを記述する場合、必要ありません。
+
+``` bash
+# Build a virtual environment.
+for A_name in ${A_envnames[@]}; do
+    cd $A_dpath
+
+    # Run a script to create a single virtual environment.
+    . build_venv.sh $A_dpath $A_name $A_dpath/$A_name.txt $A_python_ver
+
+    # Run common processing.
+    pip install -r $A_dpath/docs.txt # documentation packages (sphinx, etc.)
+    pip install -r $A_dpath/test.txt # test packages (ruff, mypy, pytest, etc.)
+```
+
+#### 1.4. 仮想環境ごとの追加処理を設定する
+
+仮想環境ごとに追加で処理が必要な場合、`case`文の中に設定します。
+
+``` bash
+# Build a virtual environment.
+for A_name in ${A_envnames[@]}; do
+
+    ...
+
+    # Run additional processing.
+    case $A_name in # Set a virtual environment.
+        tf-gpu)
+            ;;
+        to-gpu)
+            pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+            ;;
+
+    ...
+```
+
+### 2. `setup.sh`を実行する
+
+``` bash
+source setup.sh
+```
+
+[`setup.sh`](../data/pyenv_venv_pip/.env/setup.sh)は、下記を実行するスクリプトです。
+
+1. `build_venv.sh`の実行
+1. 共通処理の実行 (設定した場合)
+1. 追加処理の実行 (設定した場合)
+
+[グローバルなpythonバージョンを設定する](#24-グローバルなpythonバージョンを設定する)に進んでください。
+
+**複数の仮想環境の構築完了です。**
+
+## 仮想環境の有効化
+
+``` bash
+source ~/activate.sh <env-name>
+```
+
+(`source <env-dir-path>/bin/activate`を直接、実行してもOKです)
+
+## `pip`について
+
+### パッケージバージョンの保存
+
+``` bash
+pip freeze > <file-name>.txt
+```
+
+### 保存したパッケージバージョンのインストール
+
+``` bash
+pip install -r <file-name>.txt
+```
+
+## `pyenv`について
+
+### インストール済みpythonの表示
+
+``` bash
+pyenv versions
+```
+
+インストール済みのpythonバージョンの一覧と現在のディレクトリの設定が表示されます。
+`system`は`apt-get`等でインストールしたpyhtonのバージョンを指します。
+また`pyenv`でインストールしたpythonは、`~/.pyenv/versions/`にあります。
+
+``` bash
+  system
+* 3.12.3 (set by <project_dir>/.python-version)
+```
+
+### ローカルpythonバージョンの設定
+
+下記コマンドを実行すると、pythonバージョンが記載された`.python-version`が作成されます。
+
+``` bash
+cd <project-dir-path>
+pyenv local <python-version>
+```
+
+これにより、プロジェクトのディレクトリ内でpythonを実行した際、`.python-version`のバージョンで実行できます。
+pythonを実行した際、カレントディレクトリに`.python-version`がない場合、上の階層を順に探索し、pythonバージョンを設定します。
+見つからない場合は、`pyenv global`の設定が採用されます。

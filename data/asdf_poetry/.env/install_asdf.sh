@@ -1,41 +1,40 @@
-# -------------------------------------------------------------------
-# Ubuntu上にasdfをインストールするスクリプト
+# -----------------------------------------------------------------------------
+# This is a script to install a asdf on Ubuntu.
 #
-# 1. Ubuntuパッケージの更新
-# 2. asdfの依存関係とpythonのビルド依存関係パッケージのインストール
-#       asdfの公式手順では、pythonのビルド依存関係パッケージのインストールは、
-#       特に指定されていません。
-#       しかしpythonインストール時にエラーになるため、インストールします。
-#       インストールするパッケージはpyenvと同様です。
-# 3. asdfのインストール
-#       ~/.asdfにインストールされる。
-# 4. asdfの環境変数の設定
-#       Ubuntuには~/.bashrc以外にも~/.profileがあるが、その中で、
-#       ~/.bashrcを呼び出すので、~/.bashrcにのみ設定する。
-# 5. asdfのタブ補完の有効化
-# 6. asdfのpythonプラグインのインストール
+# 1. Update a ubuntu packages.
+# 2. Install asdf dependency packages and python build dependency packages.
+#    The official asdf procedure does not specify the installation of
+#    python build dependency packages. However, since an error occurs
+#    when installing python, we will install them. The packages to be
+#    installed are the same as pyenv.
+# 3. Install asdf.
+#    install path: ~/.asdf/
+# 3. Set environment variables in asdf.
+#    Ubuntu has ~/.profile, which calls ~/.bashrc, so set it only in ~/.bashrc.
+# 4. Enable tab completion for asdf.
+# 5. Install the asdf python plugin.
 #
 # Note:
-#   asdf installでpythonのインストールはしない。
-#   asdf localやasdf globalの設定もしない。
+#   Do not install python with asdf install.
+#   Do not set asdf local or asdf global.
 #
-# コマンド:
+# Command:
 #   source install_asdf.sh
-#       sudoのパスワードを入力する。
-# -------------------------------------------------------------------
+#   - If necessary, enter your sudo password.
+# -----------------------------------------------------------------------------
 #!/bin/bash
 
-# Ubuntuのパッケージを更新する。
-echo ------------------------------------------------------------
-echo Ubuntuパッケージを更新します。
-echo ------------------------------------------------------------
+# Update a ubuntu packages.
+echo '----------------------------------------------------------------------'
+echo 'Update a ubuntu packages.'
+echo '----------------------------------------------------------------------'
 sudo apt-get update
 sudo apt-get upgrade -y
 
-# asdfの依存関係パッケージをインストールする。
-echo ------------------------------------------------------------
-echo asdfの依存関係とpythonのビルド依存関係パッケージをインストールします。
-echo ------------------------------------------------------------
+# Install asdf dependency packages and python build dependency packages.
+echo '----------------------------------------------------------------------'
+echo 'Install asdf dependency packages and python build dependency packages.'
+echo '----------------------------------------------------------------------'
 sudo apt-get install -y \
     build-essential \
     libssl-dev \
@@ -53,33 +52,33 @@ sudo apt-get install -y \
     libffi-dev \
     liblzma-dev
 
-# asdfをインストールする。
-echo ------------------------------------------------------------
-echo asdfをインストールします。
-echo ------------------------------------------------------------
+# Install asdf.
+echo '----------------------------------------------------------------------'
+echo 'Install asdf.'
+echo '----------------------------------------------------------------------'
 git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.1
 
-# 環境変数の設定
-echo ------------------------------------------------------------
-echo asdfの環境変数を設定します。
-echo ------------------------------------------------------------
+# Set environment variables in asdf.
+echo '----------------------------------------------------------------------'
+echo 'Set environment variables in asdf.'
+echo '----------------------------------------------------------------------'
 echo >> ~/.bashrc
 echo '# Set asdf' >> ~/.bashrc
 echo . "$HOME/.asdf/asdf.sh" >> ~/.bashrc
 . ~/.bashrc
 
-# タブ補完を有効化する
-echo ------------------------------------------------------------
-echo asdfのタブ補完を有効化します。
-echo ------------------------------------------------------------
+# Enable tab completion for asdf.
+echo '----------------------------------------------------------------------'
+echo 'Enable tab completion for asdf.'
+echo '----------------------------------------------------------------------'
 echo . "$HOME/.asdf/completions/asdf.bash" >> ~/.bashrc
 . ~/.bashrc
 
-# pythonプラグインをインストールする
-echo ------------------------------------------------------------
-echo asdfのpythonプラグインをインストールします。
-echo ------------------------------------------------------------
-asdf plugin-list-all | grep python # 確認
+# Install the asdf python plugin.
+echo '----------------------------------------------------------------------'
+echo 'Install the asdf python plugin.'
+echo '----------------------------------------------------------------------'
+asdf plugin-list-all | grep python # check
 asdf plugin-add python
 
 echo 'done.'

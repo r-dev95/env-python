@@ -1,30 +1,29 @@
-# -------------------------------------------------------------------
-# Ubuntu上にpyenvをインストールするスクリプト
+# -----------------------------------------------------------------------------
+# This is a script to install a pyenv on Ubuntu.
 #
-# 1. Ubuntuパッケージの更新
-# 2. pythonのビルド依存関係パッケージのインストール
-# 3. pyenvのインストール
-#       ~/.pyenvにインストールされる。
-# 4. pyenvの環境変数の設定
-#       pyenvの公式手順では、下記ファイルに設定するよう記載されている。
-#           - ~/.bashrc
-#           - ~/.profile      (ファイルが存在する場合)
-#           - ~/.bash_profile (ファイルが存在する場合)
-#           - ~/.bash_login   (ファイルが存在する場合)
-#       Ubuntuには~/.profileがあるが、その中で、
-#       ~/.bashrcを呼び出すので、~/.bashrcにのみ設定する。
+# 1. Update a ubuntu packages.
+# 2. Install python build dependency packages.
+# 3. Install pyenv.
+#    install path: ~/.pyenv/
+# 4. Set environment variables in pyenv.
+#    The official pyenv procedure describes how to set it in the following file.
+#       - ~/.bashrc
+#       - ~/.profile      (If the file exists)
+#       - ~/.bash_profile (If the file exists)
+#       - ~/.bash_login   (If the file exists)
+#    Ubuntu has ~/.profile, which calls ~/.bashrc, so set it only in ~/.bashrc.
+#
+# Command:
+#   source install_pyenv.sh
+#   - If necessary, enter your sudo password.
 #
 # Note:
-#   pyenv installでpythonのインストールはしない。
-#   pyenv localやpyenv globalの設定もしない。
-#
-# コマンド:
-#   source install_pyenv.sh
-#       sudoのパスワードを入力する。
-# -------------------------------------------------------------------
+#   Do not install python with pyenv install.
+#   Do not set pyenv local or pyenv global.
+# -----------------------------------------------------------------------------
 #!/bin/bash
 
-# 変数と関数をunsetする関数。
+# Unset variables and functions.
 function unset_var() {
     unset fpath
     unset val
@@ -33,17 +32,17 @@ function unset_var() {
 
 cd ~/
 
-# Ubuntuのパッケージを更新する。
-echo ------------------------------------------------------------
-echo Ubuntuパッケージを更新します。
-echo ------------------------------------------------------------
+# Update a ubuntu packages.
+echo '----------------------------------------------------------------------'
+echo 'Update a ubuntu packages.'
+echo '----------------------------------------------------------------------'
 sudo apt-get update
 sudo apt-get upgrade -y
 
-# pythonのビルド依存関係パッケージをインストールする。
-echo ------------------------------------------------------------
-echo pythonのビルド依存関係のパッケージをインストールします。
-echo ------------------------------------------------------------
+# Install python build dependency packages.
+echo '----------------------------------------------------------------------'
+echo 'Install python build dependency packages.'
+echo '----------------------------------------------------------------------'
 sudo apt-get install -y \
     build-essential \
     libssl-dev \
@@ -61,16 +60,16 @@ sudo apt-get install -y \
     libffi-dev \
     liblzma-dev
 
-# pyenvをインストールする。
-echo ------------------------------------------------------------
-echo pyenvをインストールします。
-echo ------------------------------------------------------------
+# Install pyenv.
+echo '----------------------------------------------------------------------'
+echo 'Install pyenv.'
+echo '----------------------------------------------------------------------'
 curl https://pyenv.run | bash
 
-# 環境変数の設定
-echo ------------------------------------------------------------
-echo pyenvの環境変数を設定します。
-echo ------------------------------------------------------------
+# Set environment variables in pyenv.
+echo '----------------------------------------------------------------------'
+echo 'Set environment variables in pyenv.'
+echo '----------------------------------------------------------------------'
 # fpath=(~/.bashrc ~/.profile)
 fpath=(~/.bashrc)
 for val in ${fpath[@]}; do
