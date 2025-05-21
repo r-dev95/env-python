@@ -119,6 +119,21 @@ cd <pj-name-path>
 poetry env use <python-version> # 書き換えた場合のみ
 ```
 
+> [!Note]
+>
+> `pyproject.toml`の`requires-python`に設定するバージョンは、あくまで条件であり、これを満たす限り、使用するバージョンは、`poetry env use`コマンドで設定できます。
+
+### pythonパッケージのインストール
+
+``` bash
+# デフォルトグループの場合
+poetry add <package-name>
+# <group-name>グループの場合
+poetry add --group <group-name> <package-name>
+# devグループの場合
+poetry add --dev <package-name>
+```
+
 **仮想環境の構築はここまで。**
 
 ## その他コマンドについて
@@ -161,9 +176,7 @@ poetry env list
 asdf list python
 ```
 
-> [!Note]
->
-> ``` bash
-> 3.10.15
-> * 3.12.3
-> ```
+ ``` bash
+ 3.10.15
+ * 3.12.3
+ ```

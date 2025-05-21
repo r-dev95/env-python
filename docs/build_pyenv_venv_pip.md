@@ -116,11 +116,9 @@ deactivate
 pyenv versions
 ```
 
-> [!Note]
->
-> ``` bash
->   system
-> * 3.12.3 (set by <pj-dir-path>/.python-version)
-> ```
->
-> `system`は`apt-get`等でインストールしたpyhtonのバージョンを指します。
+`system`は`apt-get`等でインストールしたpyhtonのバージョンを指します。
+
+``` bash
+  system
+* 3.12.3 (set by <pj-dir-path>/.python-version)
+```
