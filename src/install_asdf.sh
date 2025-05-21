@@ -31,9 +31,9 @@ echo '----------------------------------------------------------------------'
 sudo apt-get update
 sudo apt-get upgrade -y
 
-# Install asdf dependency packages and python build dependency packages.
+# Install python build dependency packages.
 echo '----------------------------------------------------------------------'
-echo 'Install asdf dependency packages and python build dependency packages.'
+echo 'Install python build dependency packages.'
 echo '----------------------------------------------------------------------'
 sudo apt-get install -y \
     build-essential \

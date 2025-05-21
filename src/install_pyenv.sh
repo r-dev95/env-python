@@ -23,13 +23,6 @@
 # -----------------------------------------------------------------------------
 #!/bin/bash
 
-# Unset variables and functions.
-function unset_var() {
-    unset fpath
-    unset val
-    unset unset_var
-}
-
 cd ~/
 
 # Update a ubuntu packages.
@@ -80,9 +73,5 @@ for val in ${fpath[@]}; do
     echo 'eval "$(pyenv init -)"' >> $val
     . $val
 done
-
-cd ~/.env/
-
-unset_var
 
 echo 'done.'

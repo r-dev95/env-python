@@ -20,15 +20,6 @@
 # -----------------------------------------------------------------------------
 #!/bin/bash
 
-# Unset variables and functions.
-function unset_var() {
-    unset dpath
-    unset unset_var
-}
-
-# poetry cache directory
-dpath=~/.env
-
 cd ~/
 
 # Update a ubuntu packages.
@@ -61,10 +52,6 @@ poetry completions bash >> ~/.bash_completion
 echo '----------------------------------------------------------------------'
 echo 'Change the poetry cache directory.'
 echo '----------------------------------------------------------------------'
-poetry config cache-dir $dpath
-
-cd $dpath
-
-unset_var
+poetry config virtualenvs.in-project true
 
 echo 'done.'
