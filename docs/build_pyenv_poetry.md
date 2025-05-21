@@ -85,7 +85,8 @@ poetry completions bash >> ~/.bash_completion
 poetry config virtualenvs.in-project true
 ```
 
-> [!TIP] poetryの設定の確認
+> [!Tip]
+> **poetryの設定の確認**
 >
 > ``` bash
 > poetry config --list
@@ -106,7 +107,7 @@ cd <pj-name-path>
 poetry env use <python-version> # 書き換えた場合のみ
 ```
 
-> [!TIP]
+> [!Note]
 >
 > `pyproject.toml`の`requires-python`に設定するバージョンは、あくまで条件であり、これを満たす限り、使用するバージョンは、`poetry env use`コマンドで設定できます。
 
@@ -163,7 +164,7 @@ poetry env list
 pyenv versions
 ```
 
-> [!TIP] Example
+> [!Note]
 >
 > ``` bash
 >   system

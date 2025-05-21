@@ -97,7 +97,8 @@ poetry completions bash >> ~/.bash_completion
 poetry config virtualenvs.in-project true
 ```
 
-> [!TIP] poetryの設定の確認
+> [!Tip]
+> **poetryの設定の確認**
 >
 > ``` bash
 > poetry config --list
@@ -160,7 +161,7 @@ poetry env list
 asdf list python
 ```
 
-> [!TIP] Example
+> [!Note]
 >
 > ``` bash
 > 3.10.15

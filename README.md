@@ -37,7 +37,7 @@
 * 依存関係の管理を重視したい方
 * パッケージを公開したい方
 
-> [!TIP] 注意
+> [!Note]
 > WSLのUbuntu上に構築する体で説明しているため、必要に応じて、WSLもインストールしてください。
 >
 > * [Microsoft公式手順](https://learn.microsoft.com/ja-jp/windows/wsl/install)

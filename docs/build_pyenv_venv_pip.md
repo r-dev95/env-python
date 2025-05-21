@@ -63,7 +63,9 @@ pyenv local <python-version> # pythonバージョンのローカル設定
 python -m venv <env-name>
 ```
 
-> [!TIP] pythonバージョンのローカル設定
+> [!Note]
+> **pythonバージョンのローカル設定**
+>
 > pythonバージョンが記載された`.python-version`が作成されます。
 >
 > これにより、プロジェクトのディレクトリ内でpythonを実行した際、`.python-version`のバージョンで実行できます。
@@ -114,7 +116,7 @@ deactivate
 pyenv versions
 ```
 
-> [!TIP] Example
+> [!Note]
 >
 > ``` bash
 >   system
