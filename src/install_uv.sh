@@ -33,6 +33,7 @@ echo >> ~/.bashrc
 echo '# Set uv and uvx' >> ~/.bashrc
 echo 'eval "$(uv generate-shell-completion bash)"' >> ~/.bashrc
 echo 'eval "$(uvx --generate-shell-completion bash)"' >> ~/.bashrc
+echo 'export UV_CACHE_DIR="/mnt/c/Users/ruima/.cache/uv"' >> ~/.bashrc
 . ~/.bashrc
 
 echo 'done.
