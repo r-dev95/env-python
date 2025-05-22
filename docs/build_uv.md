@@ -22,7 +22,28 @@
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-### タブ補完の有効化
+### 環境変数の設定
+
+この設定は必要な場合のみ。(Warningを参照)
+
+``` bash
+echo 'export UV_CACHE_DIR="<uv-cache-dir-path>"'  >> ~/.bashrc
+source ~/.bashrc
+```
+
+> [!Warning]
+> **`UV_CACHE_DIR`の設定が必要なパターン**
+>
+> WSL上に`uv`をインストールし、デフォルト設定でpythonパッケージをインストールする際、下記のような挙動をします。
+>
+> 1. キャッシュディレクトリにパッケージをインストール
+> 1. インストールしたパッケージのシンボリックリンクを仮想環境に生成
+>
+> このとき、キャッシュディレクトリがWSL側、仮想環境(プロジェクト)がWindows側にあると、ファイルシステムの違いから、シンボリックリンクの生成ができず、コピーが選択されるため時間もファイルサイズも増えます。
+>
+> そのため、`UV_CACHE_DIR`にWindows側のディレクトリを設定することで、これを回避できます。
+
+### タブ補完の設定
 
 ``` bash
 echo 'eval "$(uv generate-shell-completion bash)"' >> ~/.bashrc

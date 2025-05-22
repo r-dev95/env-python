@@ -30,7 +30,7 @@ echo . "$HOME/.asdf/asdf.sh" >> ~/.bashrc~/.bashrc
 source ~/.bashrc
 ```
 
-### タブ補完の有効化
+### タブ補完の設定
 
 ``` bash
 echo . "$HOME/.asdf/completions/asdf.bash" >> ~/.bashrc
@@ -81,10 +81,11 @@ echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-### タブ補完の有効化
+### タブ補完の設定
 
 ``` bash
 poetry completions bash >> ~/.bash_completion
+source ~/.bash_completion
 ```
 
 ### 仮想環境の構築ディレクトリの設定
